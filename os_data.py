@@ -1,5 +1,6 @@
 
 from osdatahub import FeaturesAPI, Extent
+import os
 
 key = os.environ.get('OS_API_KEY')
 bbox = (-2.2361, 53.4746, -2.2234, 53.4805)
