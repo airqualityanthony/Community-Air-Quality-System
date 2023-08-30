@@ -1,5 +1,7 @@
 import streamlit as st
 import geemap.foliumap as geemap
+import ee
+from streamlit_folium import st_folium
 
 st.set_page_config(layout="wide")
 
@@ -36,9 +38,18 @@ st.markdown(markdown)
 
 st.title("Map")
 
-with st.expander("See source code"):
-    with st.echo():
+m = geemap.Map(center=[51, -1], 
+                zoom=4,
+                draw_export=True)
 
-        m = geemap.Map(center=[51, -1], zoom=4)
+# m.to_streamlit(height=700)
 
-m.to_streamlit(height=700)
+mapdata = st_folium(m, width=1500, height=700)
+
+## Write Drawing Data to Streamlit
+st.write(mapdata['all_drawings'])
+
+if st.button("Submit Model Coordinates"):
+    # roi = ee.FeatureCollection(m.draw_features)
+    # st.write(roi.getInfo())
+    pass
