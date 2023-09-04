@@ -39,7 +39,7 @@ st.markdown(markdown)
 st.title("Map")
 
 m = geemap.Map(center=[51, -1], 
-                zoom=4,
+                zoom=6,
                 draw_export=True)
 
 # m.to_streamlit(height=700)
