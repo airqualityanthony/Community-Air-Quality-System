@@ -1,3 +1,4 @@
 geemap
 ee
 folium
+streamlit-folium
