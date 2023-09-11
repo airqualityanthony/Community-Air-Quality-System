@@ -17,7 +17,7 @@ dataset = ee.ImageCollection('ECMWF/CAMS/NRT')
 start_date = st.date_input("Start Date", datetime.date(2022, 7, 1))
 end_date = st.date_input("End Date", datetime.date(2022, 8, 1))
 
-date_range = ee.DateRange(start_date, end_date)
+date_range = ee.DateRange(str(start_date), str(end_date))
 data = dataset.filterDate(date_range)
 
 
@@ -42,4 +42,3 @@ Map.addLayer(hour00, visParams, 'total_column_nitrogen_dioxide_surface - H00', '
 Map.addLayer(hour21, visParams, 'total_column_nitrogen_dioxide_surface - H21', 'true', 0.6)
 
 st_folium(Map, width=1500, height=700)
-
