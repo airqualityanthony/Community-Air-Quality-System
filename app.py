@@ -2,6 +2,8 @@ import streamlit as st
 import geemap.foliumap as geemap
 import ee
 from streamlit_folium import st_folium
+import json
+from os_functions import building_height_radius
 
 st.set_page_config(layout="wide")
 
@@ -65,8 +67,15 @@ else:
 
 
 
-st.selectbox('Select Year', range(2023,2040))
+year = st.selectbox('Select Year', range(2023,2040))
 
 if st.button("Submit Model Coordinates"):
+    json_dump = {
+                "latitudes": latitudes,
+                "longitudes": longitudes,
+                "year": year
+                }
 
-    pass
+    with open('model_coordinates.json', 'w') as f:
+        json.dump(json_dump, f)
+
