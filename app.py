@@ -4,6 +4,12 @@ import ee
 from streamlit_folium import st_folium
 import json
 from os_functions import building_height_radius
+from osdatahub import FeaturesAPI, Extent, NGD
+import os
+from convertbng.util import convert_bng, convert_lonlat
+import folium
+
+key = os.environ.get('OS_API_KEY')
 
 st.set_page_config(layout="wide")
 
@@ -59,8 +65,6 @@ if mapdata['all_drawings']:
     for i in range(0,len(mapdata['all_drawings'])):
         longitudes.append(mapdata['all_drawings'][i]['geometry']['coordinates'][0])
         latitudes.append(mapdata['all_drawings'][i]['geometry']['coordinates'][1])
-    st.write(longitudes)
-    st.write(latitudes)
 
 else: 
     st.write("Please select markers before continuing.")
@@ -69,13 +73,31 @@ else:
 
 year = st.selectbox('Select Year', range(2023,2040))
 
-if st.button("Submit Model Coordinates"):
+if st.checkbox("Submit Model Coordinates"):
     json_dump = {
                 "latitudes": latitudes,
                 "longitudes": longitudes,
                 "year": year
                 }
+    
+    lon = longitudes[0]
+    lat = latitudes[0]
 
+    X,Y = convert_bng(lon,lat)
+
+    try:
+        TA = building_height_radius(X,Y, 100, 'topographic_area', key, True)
+        map = TA.explore('RelH2') ## colour by height
+        folium.Marker([lat, lon],popup=[lat,lon]).add_to(map)
+        folium.plugins.MeasureControl().add_to(map)
+        st_folium(map)
+        st.write(TA)
+
+
+    except AttributeError:
+        st.write("No buildings found in the area. Please select another location.")
+
+    
     with open('model_coordinates.json', 'w') as f:
         json.dump(json_dump, f)
 
