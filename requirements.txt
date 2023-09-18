@@ -5,3 +5,5 @@ streamlit-folium
 osdatahub
 geopandas
 convertbng
+matplotlib
+mapclassify
