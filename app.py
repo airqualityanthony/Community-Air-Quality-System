@@ -8,6 +8,8 @@ from osdatahub import FeaturesAPI, Extent, NGD
 import os
 from convertbng.util import convert_bng, convert_lonlat
 import folium
+import geopandas as gpd
+from shapely.geometry import Point
 
 key = os.environ.get('OS_API_KEY')
 
@@ -87,11 +89,19 @@ if st.checkbox("Submit Model Coordinates"):
 
     try:
         TA = building_height_radius(X,Y, 100, 'topographic_area', key, True)
-        map = TA.explore('RelH2') ## colour by height
+        map = TA.explore('RelH2',width=1500, height=700) ## colour by height
         folium.Marker([lat, lon],popup=[lat,lon]).add_to(map)
         folium.plugins.MeasureControl().add_to(map)
+
+        BuildingGeoSeries = TA['geometry'][TA['Theme'] == 'Buildings']
+        BuildingGeoSeries = BuildingGeoSeries.to_crs(27700)
+        BuildingDistances = BuildingGeoSeries.distance(Point(X,Y))
+        LineDistances = BuildingGeoSeries.shortest_line(Point(X,Y))
+        geo_j = folium.GeoJson(data=LineDistances, name="LineDistances", style_function=lambda x: {'color': 'red', 'weight': 1, 'opacity':0.5})
+        geo_j.add_to(map)
+
         st_folium(map)
-        st.write(TA)
+        # st.write(TA)
 
 
     except AttributeError:

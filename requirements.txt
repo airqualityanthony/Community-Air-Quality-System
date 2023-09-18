@@ -2,3 +2,5 @@ geemap
 ee
 folium
 streamlit-folium
+osdatahub
+geopandas
