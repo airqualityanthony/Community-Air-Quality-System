@@ -2,8 +2,6 @@
 from osdatahub import FeaturesAPI, Extent, NGD
 import geopandas as gpd
 import folium
-import matplotlib.pyplot as plt
-import mapclassify as mc
 from shapely.geometry import Point
 import os
 import numpy as np
