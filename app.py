@@ -100,7 +100,7 @@ if st.checkbox("Submit Model Coordinates"):
         geo_j = folium.GeoJson(data=LineDistances, name="LineDistances", style_function=lambda x: {'color': 'red', 'weight': 1, 'opacity':0.5})
         geo_j.add_to(map)
 
-        st_folium(map)
+        st_folium(map,width=1500, height=700)
         # st.write(TA)
 
 
