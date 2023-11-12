@@ -38,3 +38,4 @@ def building_height_radius(X, Y, radius,product,key, clip):
     map = TA_ll.explore('RelH2') ## colour by height
     folium.Marker([lat[0], lon[0]],popup=[lat[0],lon[0]]).add_to(map)
     return TA_ll
+

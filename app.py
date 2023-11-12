@@ -1,13 +1,10 @@
 import streamlit as st
-import geemap.foliumap as geemap
-import ee
 from streamlit_folium import st_folium
-import json
 from os_functions import building_height_radius
-from osdatahub import FeaturesAPI, Extent, NGD
 import os
-from convertbng.util import convert_bng, convert_lonlat
+from convertbng.util import convert_bng
 import folium
+from folium.plugins import Draw
 import geopandas as gpd
 from shapely.geometry import Point
 
@@ -49,14 +46,19 @@ st.markdown(markdown)
 
 st.title("Map")
 
-m = geemap.Map(center=[54, 1], 
-                zoom=6,
-                draw_export=True)
 
-# m.to_streamlit(height=700)
+m = folium.Map(location=[51.23, -1.00], zoom_start=5)
+fg = folium.FeatureGroup(name="data")
+Draw().add_to(m)
 
-mapdata = st_folium(m, width=1500, height=700)
 
+mapdata = st_folium(
+    m,
+    feature_group_to_add=fg,
+    center=[51.23, -1.00],
+    width=1200,
+    height=500,
+)
 ## Write Drawing Data to Streamlit
 longitudes = []
 latitudes = []
@@ -71,17 +73,8 @@ if mapdata['all_drawings']:
 else: 
     st.write("Please select markers before continuing.")
 
-
-
-year = st.selectbox('Select Year', range(2023,2040))
-
 if st.checkbox("Submit Model Coordinates"):
-    json_dump = {
-                "latitudes": latitudes,
-                "longitudes": longitudes,
-                "year": year
-                }
-    
+
     lon = longitudes[0]
     lat = latitudes[0]
 
@@ -90,24 +83,25 @@ if st.checkbox("Submit Model Coordinates"):
     try:
         TA = building_height_radius(X,Y, 100, 'topographic_area', key, True)
         map = TA.explore('RelH2',width=1500, height=700) ## colour by height
-        folium.Marker([lat, lon],popup=[lat,lon]).add_to(map)
-        folium.plugins.MeasureControl().add_to(map)
+        fg.add_child(folium.Marker([lat, lon],popup=[lat,lon]))
+        # folium.plugins.MeasureControl().add_to(map)
 
         BuildingGeoSeries = TA['geometry'][TA['Theme'] == 'Buildings']
         BuildingGeoSeries = BuildingGeoSeries.to_crs(27700)
         BuildingDistances = BuildingGeoSeries.distance(Point(X,Y))
         LineDistances = BuildingGeoSeries.shortest_line(Point(X,Y))
         geo_j = folium.GeoJson(data=LineDistances, name="LineDistances", style_function=lambda x: {'color': 'red', 'weight': 1, 'opacity':0.5})
-        geo_j.add_to(map)
-
-        st_folium(map,width=1500, height=700)
+        fg.add_child(geo_j)
+        fg.add_child(folium.GeoJson(data=BuildingGeoSeries, name="Buildings", style_function=lambda x: {'color': 'black', 'weight': 1, 'opacity':0.5}))
         # st.write(TA)
-
-
+        mapdata = st_folium(
+            m,
+            feature_group_to_add=fg,
+            center=[lat, lon],
+            zoom=18,
+            width=1200,
+            height=500,
+        )
     except AttributeError:
         st.write("No buildings found in the area. Please select another location.")
-
-    
-    with open('model_coordinates.json', 'w') as f:
-        json.dump(json_dump, f)
 
