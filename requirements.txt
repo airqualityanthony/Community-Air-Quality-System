@@ -7,3 +7,4 @@ geopandas
 convertbng
 matplotlib
 mapclassify
+kaggle

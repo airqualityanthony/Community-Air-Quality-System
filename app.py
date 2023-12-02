@@ -7,6 +7,7 @@ import folium
 from folium.plugins import Draw
 import geopandas as gpd
 from shapely.geometry import Point
+import pandas as pd
 
 key = os.environ.get('OS_API_KEY')
 
@@ -73,6 +74,7 @@ if mapdata['all_drawings']:
 else: 
     st.write("Please select markers before continuing.")
 
+# if st.button('Submit Model Coordinates'):
 if st.checkbox("Submit Model Coordinates"):
 
     lon = longitudes[0]
@@ -81,19 +83,22 @@ if st.checkbox("Submit Model Coordinates"):
     X,Y = convert_bng(lon,lat)
 
     try:
+        #```Buildings```
         TA = building_height_radius(X,Y, 100, 'topographic_area', key, True)
-        map = TA.explore('RelH2',width=1500, height=700) ## colour by height
+        ta_map = TA.explore('RelH2',width=1500, height=700) ## colour by height
         fg.add_child(folium.Marker([lat, lon],popup=[lat,lon]))
-        # folium.plugins.MeasureControl().add_to(map)
-
+        Buildings = TA[TA['Theme']=="Buildings"]
         BuildingGeoSeries = TA['geometry'][TA['Theme'] == 'Buildings']
         BuildingGeoSeries = BuildingGeoSeries.to_crs(27700)
         BuildingDistances = BuildingGeoSeries.distance(Point(X,Y))
         LineDistances = BuildingGeoSeries.shortest_line(Point(X,Y))
-        geo_j = folium.GeoJson(data=LineDistances, name="LineDistances", style_function=lambda x: {'color': 'red', 'weight': 1, 'opacity':0.5})
+        geo_j = folium.GeoJson(data=LineDistances, name="LineDistances", style_function=lambda x: {'color': 'red', 'weight': 0.5, 'opacity':0.5})
+        ## add LineDistances to map
         fg.add_child(geo_j)
-        fg.add_child(folium.GeoJson(data=BuildingGeoSeries, name="Buildings", style_function=lambda x: {'color': 'black', 'weight': 1, 'opacity':0.5}))
-        # st.write(TA)
+        ## add Buildings to map
+        fg.add_child(folium.GeoJson(data=BuildingGeoSeries, name="Buildings", style_function=lambda x: {"color":"black",'weight': 1, 'opacity':0.5}))
+        
+        ## load the map
         mapdata = st_folium(
             m,
             feature_group_to_add=fg,
@@ -102,6 +107,12 @@ if st.checkbox("Submit Model Coordinates"):
             width=1200,
             height=500,
         )
+
+        ## location data output
+        output_data = pd.DataFrame({'Latitude':[lat],'Longitude': [lon]})
+        st.dataframe(output_data)
+        # output_data.to_csv('output_data.csv')
     except AttributeError:
         st.write("No buildings found in the area. Please select another location.")
-
+else: 
+    st.write("Please select a location before continuing.")
