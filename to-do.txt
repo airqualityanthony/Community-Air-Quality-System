@@ -1,0 +1,12 @@
+EDA
+    AURN sites
+        Buildings data
+        Average And Indicative Speed
+        Pavement
+        Road Link
+        Meteorology
+    
+Modelling
+    Above data in model for all AURN with annual, monthly, daily means? 
+
+App
