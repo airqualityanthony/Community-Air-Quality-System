@@ -1,6 +1,6 @@
 import streamlit as st
 from streamlit_folium import st_folium
-from app.os_functions import building_height_radius
+from app.os_functions import building_height_radius, get_data, calculate_bearing
 import os
 from convertbng.util import convert_bng
 import folium
@@ -10,6 +10,10 @@ from shapely.geometry import Point
 import pandas as pd
 
 key = os.environ.get('OS_API_KEY')
+data_dict = {'average_speeds': 'trn-rami-averageandindicativespeed-1',
+ 'pavement1': 'trn-ntwk-pavementlink-1',
+ 'pavement2': 'trn-ntwk-pavementlink-1',
+ 'roads': 'trn-ntwk-roadlink-2'}
 
 st.set_page_config(layout="wide")
 
@@ -83,21 +87,30 @@ if st.checkbox("Submit Model Coordinates"):
     X,Y = convert_bng(lon,lat)
 
     try:
-        #```Buildings```
-        TA = building_height_radius(X,Y, 100, 'topographic_area', key, True)
-        ta_map = TA.explore('RelH2',width=1500, height=700) ## colour by height
-        fg.add_child(folium.Marker([lat, lon],popup=[lat,lon]))
-        Buildings = TA[TA['Theme']=="Buildings"]
-        BuildingGeoSeries = TA['geometry'][TA['Theme'] == 'Buildings']
-        BuildingGeoSeries = BuildingGeoSeries.to_crs(27700)
-        BuildingDistances = BuildingGeoSeries.distance(Point(X,Y))
-        LineDistances = BuildingGeoSeries.shortest_line(Point(X,Y))
-        geo_j = folium.GeoJson(data=LineDistances, name="LineDistances", style_function=lambda x: {'color': 'red', 'weight': 0.5, 'opacity':0.5})
-        ## add LineDistances to map
-        fg.add_child(geo_j)
-        ## add Buildings to map
-        fg.add_child(folium.GeoJson(data=BuildingGeoSeries, name="Buildings", style_function=lambda x: {"color":"black",'weight': 1, 'opacity':0.5}))
+        # #```Buildings```
+        # TA = building_height_radius(X,Y, 100, 'topographic_area', key, True)
+        # ta_map = TA.explore('RelH2',width=1500, height=700) ## colour by height
+        # fg.add_child(folium.Marker([lat, lon],popup=[lat,lon]))
+        # Buildings = TA[TA['Theme']=="Buildings"]
+        # BuildingGeoSeries = TA['geometry'][TA['Theme'] == 'Buildings']
+        # BuildingGeoSeries = BuildingGeoSeries.to_crs(27700)
+        # BuildingDistances = BuildingGeoSeries.distance(Point(X,Y))
+        # LineDistances = BuildingGeoSeries.shortest_line(Point(X,Y))
+        # geo_j = folium.GeoJson(data=LineDistances, name="LineDistances", style_function=lambda x: {'color': 'red', 'weight': 0.5, 'opacity':0.5})
+        # ## add LineDistances to map
+        # fg.add_child(geo_j)
+        # ## add Buildings to map
+        # fg.add_child(folium.GeoJson(data=BuildingGeoSeries, name="Buildings", style_function=lambda x: {"color":"black",'weight': 1, 'opacity':0.5}))
         
+        buildings = get_data([X,Y],100,key,'buildings',data_dict)
+        roads = get_data([X,Y],100,key,'roads',data_dict)
+        pavement = get_data([X,Y],100,key,'pavements',data_dict)
+
+        fg.add_child(folium.GeoJson(buildings,popup=folium.GeoJsonPopup(fields=list(buildings.columns)[1:-1]),style_function=lambda x: {'color':'red'}))
+        fg.add_child(folium.GeoJson(roads,popup=folium.GeoJsonPopup(fields=list(roads.columns)[1:-1]),style_function=lambda x: {'color':'green'}))
+        fg.add_child(folium.GeoJson(pavement,popup=folium.GeoJsonPopup(fields=list(pavement.columns)[1:-1]),style_function=lambda x: {'color':'blue'}))
+
+
         ## load the map
         mapdata = st_folium(
             m,
