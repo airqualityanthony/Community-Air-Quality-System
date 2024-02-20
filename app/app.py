@@ -1,6 +1,6 @@
 import streamlit as st
 from streamlit_folium import st_folium
-from app.os_functions import building_height_radius, get_data, calculate_bearing
+from os_functions import building_height_radius, get_data, calculate_bearing
 import os
 from convertbng.util import convert_bng
 import folium
@@ -8,10 +8,11 @@ from folium.plugins import Draw
 import geopandas as gpd
 from shapely.geometry import Point
 import pandas as pd
+import leafmap.foliumap as leafmap
 
 key = os.environ.get('OS_API_KEY')
 data_dict = {'average_speeds': 'trn-rami-averageandindicativespeed-1',
- 'pavement1': 'trn-ntwk-pavementlink-1',
+ 'pavements': 'trn-ntwk-pavementlink-1',
  'pavement2': 'trn-ntwk-pavementlink-1',
  'roads': 'trn-ntwk-roadlink-2'}
 
@@ -68,7 +69,16 @@ mapdata = st_folium(
 longitudes = []
 latitudes = []
 
-# st.write(len(mapdata['all_drawings']))
+st.write("or enter coordinates below")
+
+latcol, loncol = st.columns(2)
+
+with latcol:    
+    st.number_input("Latitude", key="lat",step=1e-5,help="Enter latitude in decimal degrees",format="%.5f")
+
+with loncol:
+    st.number_input("Longitude", key="lon",step=1e-5,help="Enter longitude in decimal degrees",format="%.5f")
+
 
 if mapdata['all_drawings']:
     for i in range(0,len(mapdata['all_drawings'])):
@@ -81,51 +91,59 @@ else:
 # if st.button('Submit Model Coordinates'):
 if st.checkbox("Submit Model Coordinates"):
 
-    lon = longitudes[0]
-    lat = latitudes[0]
+    if st.session_state.lon:
+        lon = st.session_state.lon
+        lat = st.session_state.lat
+    else:
+        lon = longitudes[0]
+        lat = latitudes[0]
 
     X,Y = convert_bng(lon,lat)
 
     try:
-        # #```Buildings```
-        # TA = building_height_radius(X,Y, 100, 'topographic_area', key, True)
-        # ta_map = TA.explore('RelH2',width=1500, height=700) ## colour by height
-        # fg.add_child(folium.Marker([lat, lon],popup=[lat,lon]))
-        # Buildings = TA[TA['Theme']=="Buildings"]
-        # BuildingGeoSeries = TA['geometry'][TA['Theme'] == 'Buildings']
-        # BuildingGeoSeries = BuildingGeoSeries.to_crs(27700)
-        # BuildingDistances = BuildingGeoSeries.distance(Point(X,Y))
-        # LineDistances = BuildingGeoSeries.shortest_line(Point(X,Y))
-        # geo_j = folium.GeoJson(data=LineDistances, name="LineDistances", style_function=lambda x: {'color': 'red', 'weight': 0.5, 'opacity':0.5})
-        # ## add LineDistances to map
-        # fg.add_child(geo_j)
-        # ## add Buildings to map
-        # fg.add_child(folium.GeoJson(data=BuildingGeoSeries, name="Buildings", style_function=lambda x: {"color":"black",'weight': 1, 'opacity':0.5}))
-        
-        buildings = get_data([X,Y],100,key,'buildings',data_dict)
-        roads = get_data([X,Y],100,key,'roads',data_dict)
-        pavement = get_data([X,Y],100,key,'pavements',data_dict)
+        try:
+            buildings,buildings_lines = get_data([X,Y],50,key,'buildings',data_dict)
+        except:
+            pass
+        roads,road_lines = get_data([X,Y],50,key,'roads',data_dict)
+        pavement,pavement_lines = get_data([X,Y],50,key,'pavements',data_dict)
 
-        fg.add_child(folium.GeoJson(buildings,popup=folium.GeoJsonPopup(fields=list(buildings.columns)[1:-1]),style_function=lambda x: {'color':'red'}))
+        fg.add_child(folium.GeoJson(buildings,popup=folium.GeoJsonPopup(fields=list(buildings.columns)[1:len(buildings.columns)]),style_function=lambda x: {'color':'red'}))
         fg.add_child(folium.GeoJson(roads,popup=folium.GeoJsonPopup(fields=list(roads.columns)[1:-1]),style_function=lambda x: {'color':'green'}))
-        fg.add_child(folium.GeoJson(pavement,popup=folium.GeoJsonPopup(fields=list(pavement.columns)[1:-1]),style_function=lambda x: {'color':'blue'}))
+        fg.add_child(folium.GeoJson(pavement,popup=folium.GeoJsonPopup(fields=list(pavement.columns)[1:-0]),style_function=lambda x: {'color':'blue'}))
+        fg.add_child(folium.CircleMarker([lat, lon],popup=[lat,lon],radius=0.5,color='blue',fill=True,fill_color='black'))
+
+        fg.add_child(folium.GeoJson(road_lines,style_function=lambda x: {'color':'orange','weight':0.7,'opacity':0.5}))
+        fg.add_child(folium.GeoJson(pavement_lines,style_function=lambda x: {'color':'orange','weight':0.7,'opacity':0.5}))
+        fg.add_child(folium.GeoJson(buildings_lines,style_function=lambda x: {'color':'orange','weight':0.7,'opacity':0.5}))
 
 
+        result_map = leafmap.Map(center = [lat,lon], minimap_control = True, draw_control = False, zoom = 18)
+        fg.add_to(result_map)
         ## load the map
-        mapdata = st_folium(
-            m,
-            feature_group_to_add=fg,
+        result_map.to_streamlit(
             center=[lat, lon],
             zoom=18,
             width=1200,
             height=500,
         )
 
-        ## location data output
+        # location data output
         output_data = pd.DataFrame({'Latitude':[lat],'Longitude': [lon]})
-        st.dataframe(output_data)
+        tab1, tab2, tab3 = st.tabs(["Buildings", "Roads", "Pavements"])
+
+        with tab1:
+            st.header("Buildings")
+            st.dataframe(pd.DataFrame(buildings.drop(columns='geometry')))
+
+        with tab2:
+            st.header("Roads")
+            st.dataframe(pd.DataFrame(roads.drop(columns='geometry')))
+        with tab3:
+            st.header("Pavements")
+            st.dataframe(pd.DataFrame(pavement.drop(columns='geometry')))
         # output_data.to_csv('output_data.csv')
     except AttributeError:
-        st.write("No buildings found in the area. Please select another location.")
+        st.write("No data found in the area. Please select another location.")
 else: 
     st.write("Please select a location before continuing.")

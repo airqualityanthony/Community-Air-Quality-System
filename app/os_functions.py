@@ -2,10 +2,12 @@
 from osdatahub import FeaturesAPI, Extent, NGD
 import geopandas as gpd
 import folium
-from shapely.geometry import Point
+from shapely.geometry import Point, LineString
 import os
 import numpy as np
 from convertbng.util import convert_lonlat
+import math
+
 
 key = os.environ.get('OS_API_KEY')
 crs = "EPSG:27700"
@@ -55,14 +57,6 @@ def building_height_radius(X, Y, radius,product,key, clip):
 
 
 
-from shapely.geometry import Point
-import geopandas as gpd
-
-
-import geopandas as gpd
-from shapely.geometry import Point
-from geopy.distance import geodesic
-import numpy as np
 
 def calculate_bearing(pointA, pointB):
     lat1 = np.radians(pointA.y)
@@ -79,6 +73,21 @@ def calculate_bearing(pointA, pointB):
     return compass_bearing
 
 
+def calculate_bearing_linestring(line):
+    if isinstance(line, LineString):
+        pointA = line.coords[0]
+        pointB = line.coords[-1]
+    else:
+        raise TypeError("Only LineString objects are supported")
+
+    delta_x = pointB[0] - pointA[0]
+    delta_y = pointB[1] - pointA[1]
+
+    bearing = math.atan2(delta_y, delta_x)
+    bearing = math.degrees(bearing)
+    compass_bearing = (bearing + 360) % 360
+
+    return compass_bearing
 
 
 
@@ -86,13 +95,15 @@ def get_data(eastnorth,radius,key,data_key,data_dict):
     if data_key == 'buildings':
         os_data_source = OSparam_feature(eastnorth[0], eastnorth[1], radius,'topographic_area',key, clip=False)
         if isinstance(os_data_source, str):
-            return os_data_source
+            linedistances="no data for lines"
+            return os_data_source, linedistances
         else:
             os_data = os_data_source[os_data_source['Theme'] == 'Buildings'].set_crs(27700)
     else:
         os_data = OSparam_ngd(eastnorth[0], eastnorth[1], radius,data_dict[data_key],key, clip=False)
         if isinstance(os_data, str):
-            return os_data
+            linedistances="no data for lines"
+            return os_data, linedistances
         elif os_data.crs is None:
             os_data.set_crs("EPSG:4326", inplace=True)
 
@@ -103,6 +114,11 @@ def get_data(eastnorth,radius,key,data_key,data_dict):
     os_data = os_data.to_crs("EPSG:27700")  # Project to British National Grid
     point_gdf = point_gdf.to_crs("EPSG:27700")
 
+    linedistances = os_data.shortest_line(point_gdf.geometry.iloc[0])
     os_data['distance_to_point'] = os_data.geometry.apply(lambda x: point_gdf.geometry.iloc[0].distance(x))
     os_data['bearing_to_point'] = os_data.geometry.apply(lambda x: calculate_bearing(point_gdf.geometry.iloc[0], x.centroid))
-    return os_data
+
+    if data_key == 'roads':
+        os_data['road_orientation'] = os_data.geometry.apply(calculate_bearing_linestring)
+
+    return os_data, linedistances

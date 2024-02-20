@@ -9,3 +9,6 @@ matplotlib
 mapclassify
 kaggle
 dask
+geopy
+meteostat
+leafmap
