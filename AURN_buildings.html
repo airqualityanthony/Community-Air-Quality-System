@@ -1,0 +1,2460 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title>pydeck</title>
+        <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v1.13.0/mapbox-gl.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+    <script src='https://cdn.jsdelivr.net/npm/@deck.gl/jupyter-widget@~8.9.*/dist/index.js'></script>
+    <style>
+    body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#deck-container {
+  width: 100vw;
+  height: 100vh;
+}
+
+#deck-container canvas {
+  z-index: 1;
+  background: none;
+}
+    </style>
+  </head>
+  <body>
+    <div id="deck-container">
+    </div>
+  </body>
+  <script>
+    const container = document.getElementById('deck-container');
+    const jsonInput = {
+  "initialViewState": {
+    "latitude": 805973.7541652102,
+    "longitude": 393660.84520468407,
+    "maxZoom": 15,
+    "minZoom": 5,
+    "pitch": 45,
+    "zoom": 14
+  },
+  "layers": [
+    {
+      "@@type": "GeoJsonLayer",
+      "autoHighlight": true,
+      "data": [
+        {
+          "AbsH2": 46.5,
+          "AbsHMax": 46.7,
+          "AbsHMin": 26.0,
+          "BHAConf": 99.0,
+          "BHAProcessDate": "3/8/2023",
+          "BHATopoAreaVersion": 1.0,
+          "CalculatedAreaValue": 2.696704,
+          "ChangeDate": "10/10/2001",
+          "ChangeHistoryCount": 1,
+          "DescriptiveGroup": "Building",
+          "DescriptiveGroupCount": 1,
+          "DescriptiveTerm": "null",
+          "DescriptiveTermCount": 0,
+          "FeatureCode": 10021,
+          "GmlID": "Topography_TopographicArea.15428585",
+          "Make": "Manmade",
+          "OBJECTID": 15428585,
+          "PhysicalLevel": 50,
+          "PhysicalPresence": "null",
+          "ReasonForChange": "New",
+          "RelH2": 20.5,
+          "RelHMax": 20.7,
+          "Shape_Area": 2.6967,
+          "Shape_Length": 7.40224248,
+          "TOID": "osgb1000000171793785",
+          "Theme": "Buildings",
+          "ThemeCount": 1,
+          "Version": 1,
+          "VersionDate": "11/5/2001",
+          "bearing_to_point": 249.74609587743726,
+          "distance_to_point": 36.12010084426514,
+          "geometry": {
+            "coordinates": [
+              [
+                [
+                  [
+                    393619.03,
+                    805970.2
+                  ],
+                  [
+                    393618.15,
+                    805969.74
+                  ],
+                  [
+                    393619.39,
+                    805967.34
+                  ],
+                  [
+                    393620.28,
+                    805967.8
+                  ],
+                  [
+                    393619.03,
+                    805970.2
+                  ]
+                ]
+              ]
+            ],
+            "type": "MultiPolygon"
+          },
+          "lat": 805968.7682854352,
+          "lon": 393619.2135491528,
+          "site": "ABD7",
+          "style_code": 34
+        },
+        {
+          "AbsH2": 41.7,
+          "AbsHMax": 49.4,
+          "AbsHMin": 25.5,
+          "BHAConf": 99.0,
+          "BHAProcessDate": "3/8/2023",
+          "BHATopoAreaVersion": 3.0,
+          "CalculatedAreaValue": 1037.721504,
+          "ChangeDate": "10/11/2001",
+          "ChangeHistoryCount": 2,
+          "DescriptiveGroup": "Building",
+          "DescriptiveGroupCount": 1,
+          "DescriptiveTerm": "null",
+          "DescriptiveTermCount": 0,
+          "FeatureCode": 10021,
+          "GmlID": "Topography_TopographicArea.90125531",
+          "Make": "Manmade",
+          "OBJECTID": 90125531,
+          "PhysicalLevel": 50,
+          "PhysicalPresence": "null",
+          "ReasonForChange": "Attributes",
+          "RelH2": 16.2,
+          "RelHMax": 23.9,
+          "Shape_Area": 1037.72155,
+          "Shape_Length": 137.18238706,
+          "TOID": "osgb1000039171413",
+          "Theme": "Buildings",
+          "ThemeCount": 1,
+          "Version": 3,
+          "VersionDate": "2/12/2009",
+          "bearing_to_point": 239.16534389831784,
+          "distance_to_point": 32.7421321772756,
+          "geometry": {
+            "coordinates": [
+              [
+                [
+                  [
+                    393586.35,
+                    805981.41
+                  ],
+                  [
+                    393605.98,
+                    805942.58
+                  ],
+                  [
+                    393627.65,
+                    805953.6
+                  ],
+                  [
+                    393621.8,
+                    805964.87
+                  ],
+                  [
+                    393620.28,
+                    805967.8
+                  ],
+                  [
+                    393619.39,
+                    805967.34
+                  ],
+                  [
+                    393618.15,
+                    805969.74
+                  ],
+                  [
+                    393619.03,
+                    805970.2
+                  ],
+                  [
+                    393608.0,
+                    805991.85
+                  ],
+                  [
+                    393596.9,
+                    805986.32
+                  ],
+                  [
+                    393594.43,
+                    805985.08
+                  ],
+                  [
+                    393587.75,
+                    805981.75
+                  ],
+                  [
+                    393587.6,
+                    805982.05
+                  ],
+                  [
+                    393586.55,
+                    805981.51
+                  ],
+                  [
+                    393586.35,
+                    805981.41
+                  ]
+                ]
+              ]
+            ],
+            "type": "MultiPolygon"
+          },
+          "lat": 805967.2425737247,
+          "lon": 393606.98291830346,
+          "site": "ABD7",
+          "style_code": 34
+        },
+        {
+          "AbsH2": 29.7,
+          "AbsHMax": 31.4,
+          "AbsHMin": 25.4,
+          "BHAConf": 99.0,
+          "BHAProcessDate": "3/8/2023",
+          "BHATopoAreaVersion": 2.0,
+          "CalculatedAreaValue": 96.218656,
+          "ChangeDate": "10/11/2001",
+          "ChangeHistoryCount": 2,
+          "DescriptiveGroup": "Building",
+          "DescriptiveGroupCount": 1,
+          "DescriptiveTerm": "null",
+          "DescriptiveTermCount": 0,
+          "FeatureCode": 10021,
+          "GmlID": "Topography_TopographicArea.90125552",
+          "Make": "Manmade",
+          "OBJECTID": 90125552,
+          "PhysicalLevel": 50,
+          "PhysicalPresence": "null",
+          "ReasonForChange": "Attributes",
+          "RelH2": 4.3,
+          "RelHMax": 6.0,
+          "Shape_Area": 96.21859998,
+          "Shape_Length": 104.3243212,
+          "TOID": "osgb1000039171448",
+          "Theme": "Buildings",
+          "ThemeCount": 1,
+          "Version": 2,
+          "VersionDate": "11/5/2001",
+          "bearing_to_point": 176.24784670598763,
+          "distance_to_point": 31.140545130247325,
+          "geometry": {
+            "coordinates": [
+              [
+                [
+                  [
+                    393605.98,
+                    805942.58
+                  ],
+                  [
+                    393595.71,
+                    805937.36
+                  ],
+                  [
+                    393596.6,
+                    805935.55
+                  ],
+                  [
+                    393630.05,
+                    805952.5
+                  ],
+                  [
+                    393630.02,
+                    805952.55
+                  ],
+                  [
+                    393629.93,
+                    805952.73
+                  ],
+                  [
+                    393624.4,
+                    805963.16
+                  ],
+                  [
+                    393623.13,
+                    805965.56
+                  ],
+                  [
+                    393621.8,
+                    805964.87
+                  ],
+                  [
+                    393627.65,
+                    805953.6
+                  ],
+                  [
+                    393605.98,
+                    805942.58
+                  ]
+                ]
+              ]
+            ],
+            "type": "MultiPolygon"
+          },
+          "lat": 805947.952051522,
+          "lon": 393615.497136136,
+          "site": "ABD7",
+          "style_code": 34
+        },
+        {
+          "AbsH2": 41.5,
+          "AbsHMax": 41.5,
+          "AbsHMin": 25.6,
+          "BHAConf": 99.0,
+          "BHAProcessDate": "3/8/2023",
+          "BHATopoAreaVersion": 2.0,
+          "CalculatedAreaValue": 1.514528,
+          "ChangeDate": "1/1/1970",
+          "ChangeHistoryCount": 1,
+          "DescriptiveGroup": "Building",
+          "DescriptiveGroupCount": 1,
+          "DescriptiveTerm": "null",
+          "DescriptiveTermCount": 0,
+          "FeatureCode": 10021,
+          "GmlID": "Topography_TopographicArea.90125792",
+          "Make": "Manmade",
+          "OBJECTID": 90125792,
+          "PhysicalLevel": 50,
+          "PhysicalPresence": "null",
+          "ReasonForChange": "New",
+          "RelH2": 15.9,
+          "RelHMax": 15.9,
+          "Shape_Area": 1.51455,
+          "Shape_Length": 5.14138817,
+          "TOID": "osgb1000039171872",
+          "Theme": "Buildings",
+          "ThemeCount": 1,
+          "Version": 2,
+          "VersionDate": "11/5/2001",
+          "bearing_to_point": 188.5226984920696,
+          "distance_to_point": 41.32735032635975,
+          "geometry": {
+            "coordinates": [
+              [
+                [
+                  [
+                    393673.23,
+                    805931.19
+                  ],
+                  [
+                    393673.06,
+                    805931.54
+                  ],
+                  [
+                    393671.62,
+                    805930.81
+                  ],
+                  [
+                    393672.25,
+                    805929.7
+                  ],
+                  [
+                    393672.6,
+                    805929.85
+                  ],
+                  [
+                    393673.23,
+                    805931.19
+                  ]
+                ]
+              ]
+            ],
+            "type": "MultiPolygon"
+          },
+          "lat": 805930.6542816899,
+          "lon": 393672.4630397369,
+          "site": "ABD7",
+          "style_code": 34
+        },
+        {
+          "AbsH2": 30.9,
+          "AbsHMax": 31.2,
+          "AbsHMin": 25.5,
+          "BHAConf": 99.0,
+          "BHAProcessDate": "3/8/2023",
+          "BHATopoAreaVersion": 3.0,
+          "CalculatedAreaValue": 6.211264,
+          "ChangeDate": "2/11/2009",
+          "ChangeHistoryCount": 2,
+          "DescriptiveGroup": "Building",
+          "DescriptiveGroupCount": 1,
+          "DescriptiveTerm": "null",
+          "DescriptiveTermCount": 0,
+          "FeatureCode": 10021,
+          "GmlID": "Topography_TopographicArea.90125793",
+          "Make": "Manmade",
+          "OBJECTID": 90125793,
+          "PhysicalLevel": 50,
+          "PhysicalPresence": "null",
+          "ReasonForChange": "Attributes",
+          "RelH2": 5.4,
+          "RelHMax": 5.7,
+          "Shape_Area": 6.21125,
+          "Shape_Length": 11.36964754,
+          "TOID": "osgb1000039171873",
+          "Theme": "Buildings",
+          "ThemeCount": 1,
+          "Version": 3,
+          "VersionDate": "2/12/2009",
+          "bearing_to_point": 189.86482575831582,
+          "distance_to_point": 41.28395796187185,
+          "geometry": {
+            "coordinates": [
+              [
+                [
+                  [
+                    393674.88,
+                    805927.73
+                  ],
+                  [
+                    393676.25,
+                    805928.45
+                  ],
+                  [
+                    393674.32,
+                    805932.17
+                  ],
+                  [
+                    393673.06,
+                    805931.54
+                  ],
+                  [
+                    393673.23,
+                    805931.19
+                  ],
+                  [
+                    393674.88,
+                    805927.73
+                  ]
+                ]
+              ]
+            ],
+            "type": "MultiPolygon"
+          },
+          "lat": 805929.9425007311,
+          "lon": 393674.6421641645,
+          "site": "ABD7",
+          "style_code": 34
+        },
+        {
+          "AbsH2": 28.3,
+          "AbsHMax": 30.5,
+          "AbsHMin": 26.3,
+          "BHAConf": 99.0,
+          "BHAProcessDate": "3/8/2023",
+          "BHATopoAreaVersion": 3.0,
+          "CalculatedAreaValue": 17.94146,
+          "ChangeDate": "8/20/2015",
+          "ChangeHistoryCount": 2,
+          "DescriptiveGroup": "Building",
+          "DescriptiveGroupCount": 1,
+          "DescriptiveTerm": "null",
+          "DescriptiveTermCount": 0,
+          "FeatureCode": 10021,
+          "GmlID": "Topography_TopographicArea.90125796",
+          "Make": "Manmade",
+          "OBJECTID": 90125796,
+          "PhysicalLevel": 50,
+          "PhysicalPresence": "null",
+          "ReasonForChange": "Modified",
+          "RelH2": 2.0,
+          "RelHMax": 4.2,
+          "Shape_Area": 17.94146,
+          "Shape_Length": 23.25871996,
+          "TOID": "osgb1000039171878",
+          "Theme": "Buildings",
+          "ThemeCount": 1,
+          "Version": 3,
+          "VersionDate": "8/20/2015",
+          "bearing_to_point": 324.87545435614754,
+          "distance_to_point": 24.77245504583837,
+          "geometry": {
+            "coordinates": [
+              [
+                [
+                  [
+                    393638.515,
+                    805986.521
+                  ],
+                  [
+                    393637.35,
+                    805988.8
+                  ],
+                  [
+                    393637.25,
+                    805990.3
+                  ],
+                  [
+                    393634.67,
+                    805995.55
+                  ],
+                  [
+                    393632.8,
+                    805994.65
+                  ],
+                  [
+                    393636.12,
+                    805988.11
+                  ],
+                  [
+                    393637.27,
+                    805985.86
+                  ],
+                  [
+                    393638.515,
+                    805986.521
+                  ]
+                ]
+              ]
+            ],
+            "type": "MultiPolygon"
+          },
+          "lat": 805991.0165233953,
+          "lon": 393635.6919623756,
+          "site": "ABD7",
+          "style_code": 34
+        },
+        {
+          "AbsH2": 33.8,
+          "AbsHMax": 39.2,
+          "AbsHMin": 26.0,
+          "BHAConf": 99.0,
+          "BHAProcessDate": "3/8/2023",
+          "BHATopoAreaVersion": 5.0,
+          "CalculatedAreaValue": 325.055258,
+          "ChangeDate": "8/20/2015",
+          "ChangeHistoryCount": 3,
+          "DescriptiveGroup": "Building",
+          "DescriptiveGroupCount": 1,
+          "DescriptiveTerm": "null",
+          "DescriptiveTermCount": 0,
+          "FeatureCode": 10021,
+          "GmlID": "Topography_TopographicArea.90125797",
+          "Make": "Manmade",
+          "OBJECTID": 90125797,
+          "PhysicalLevel": 50,
+          "PhysicalPresence": "null",
+          "ReasonForChange": "Modified",
+          "RelH2": 7.8,
+          "RelHMax": 13.2,
+          "Shape_Area": 325.055258,
+          "Shape_Length": 87.94074004,
+          "TOID": "osgb1000039171879",
+          "Theme": "Buildings",
+          "ThemeCount": 1,
+          "Version": 5,
+          "VersionDate": "8/20/2015",
+          "bearing_to_point": 316.2474852039777,
+          "distance_to_point": 17.472635891618804,
+          "geometry": {
+            "coordinates": [
+              [
+                [
+                  [
+                    393638.92,
+                    805997.601
+                  ],
+                  [
+                    393635.874,
+                    806004.121
+                  ],
+                  [
+                    393627.5,
+                    806000.0
+                  ],
+                  [
+                    393623.629,
+                    805998.227
+                  ],
+                  [
+                    393619.75,
+                    805996.45
+                  ],
+                  [
+                    393626.35,
+                    805983.0
+                  ],
+                  [
+                    393626.75,
+                    805983.05
+                  ],
+                  [
+                    393629.25,
+                    805977.95
+                  ],
+                  [
+                    393629.81,
+                    805976.81
+                  ],
+                  [
+                    393631.1,
+                    805977.25
+                  ],
+                  [
+                    393632.7,
+                    805973.6
+                  ],
+                  [
+                    393641.01,
+                    805977.68
+                  ],
+                  [
+                    393638.5,
+                    805982.6
+                  ],
+                  [
+                    393638.8,
+                    805982.85
+                  ],
+                  [
+                    393637.27,
+                    805985.86
+                  ],
+                  [
+                    393636.12,
+                    805988.11
+                  ],
+                  [
+                    393632.8,
+                    805994.65
+                  ],
+                  [
+                    393634.67,
+                    805995.55
+                  ],
+                  [
+                    393638.92,
+                    805997.601
+                  ]
+                ]
+              ]
+            ],
+            "type": "MultiPolygon"
+          },
+          "lat": 805989.2110084073,
+          "lon": 393631.04026464635,
+          "site": "ABD7",
+          "style_code": 34
+        },
+        {
+          "AbsH2": 38.4,
+          "AbsHMax": 40.8,
+          "AbsHMin": 25.5,
+          "BHAConf": 99.0,
+          "BHAProcessDate": "3/8/2023",
+          "BHATopoAreaVersion": 2.0,
+          "CalculatedAreaValue": 163.666464,
+          "ChangeDate": "1/1/1970",
+          "ChangeHistoryCount": 1,
+          "DescriptiveGroup": "Building",
+          "DescriptiveGroupCount": 1,
+          "DescriptiveTerm": "null",
+          "DescriptiveTermCount": 0,
+          "FeatureCode": 10021,
+          "GmlID": "Topography_TopographicArea.90125798",
+          "Make": "Manmade",
+          "OBJECTID": 90125798,
+          "PhysicalLevel": 50,
+          "PhysicalPresence": "null",
+          "ReasonForChange": "New",
+          "RelH2": 12.9,
+          "RelHMax": 15.3,
+          "Shape_Area": 163.6665,
+          "Shape_Length": 51.88194931,
+          "TOID": "osgb1000039171880",
+          "Theme": "Buildings",
+          "ThemeCount": 1,
+          "Version": 2,
+          "VersionDate": "11/5/2001",
+          "bearing_to_point": 253.20198033542556,
+          "distance_to_point": 9.903219046080281,
+          "geometry": {
+            "coordinates": [
+              [
+                [
+                  [
+                    393631.65,
+                    805973.05
+                  ],
+                  [
+                    393631.5,
+                    805972.85
+                  ],
+                  [
+                    393638.35,
+                    805959.25
+                  ],
+                  [
+                    393647.92,
+                    805964.11
+                  ],
+                  [
+                    393641.01,
+                    805977.68
+                  ],
+                  [
+                    393632.7,
+                    805973.6
+                  ],
+                  [
+                    393631.65,
+                    805973.05
+                  ]
+                ]
+              ]
+            ],
+            "type": "MultiPolygon"
+          },
+          "lat": 805968.4927415049,
+          "lon": 393639.6766995994,
+          "site": "ABD7",
+          "style_code": 34
+        },
+        {
+          "AbsH2": 37.3,
+          "AbsHMax": 39.9,
+          "AbsHMin": 25.5,
+          "BHAConf": 99.0,
+          "BHAProcessDate": "3/8/2023",
+          "BHATopoAreaVersion": 3.0,
+          "CalculatedAreaValue": 216.668256,
+          "ChangeDate": "8/20/2015",
+          "ChangeHistoryCount": 2,
+          "DescriptiveGroup": "Building",
+          "DescriptiveGroupCount": 1,
+          "DescriptiveTerm": "null",
+          "DescriptiveTermCount": 0,
+          "FeatureCode": 10021,
+          "GmlID": "Topography_TopographicArea.90125799",
+          "Make": "Manmade",
+          "OBJECTID": 90125799,
+          "PhysicalLevel": 50,
+          "PhysicalPresence": "null",
+          "ReasonForChange": "Restructured",
+          "RelH2": 11.8,
+          "RelHMax": 14.4,
+          "Shape_Area": 216.66881501,
+          "Shape_Length": 64.63402005,
+          "TOID": "osgb1000039171881",
+          "Theme": "Buildings",
+          "ThemeCount": 1,
+          "Version": 3,
+          "VersionDate": "8/20/2015",
+          "bearing_to_point": 327.84403919358573,
+          "distance_to_point": 0.5287189826256524,
+          "geometry": {
+            "coordinates": [
+              [
+                [
+                  [
+                    393648.35,
+                    805984.15
+                  ],
+                  [
+                    393648.05,
+                    805984.65
+                  ],
+                  [
+                    393642.15,
+                    805988.45
+                  ],
+                  [
+                    393638.515,
+                    805986.521
+                  ],
+                  [
+                    393637.27,
+                    805985.86
+                  ],
+                  [
+                    393638.8,
+                    805982.85
+                  ],
+                  [
+                    393638.5,
+                    805982.6
+                  ],
+                  [
+                    393641.01,
+                    805977.68
+                  ],
+                  [
+                    393647.92,
+                    805964.11
+                  ],
+                  [
+                    393656.25,
+                    805968.4
+                  ],
+                  [
+                    393648.35,
+                    805984.15
+                  ]
+                ]
+              ]
+            ],
+            "type": "MultiPolygon"
+          },
+          "lat": 805976.5224954992,
+          "lon": 393646.72485121404,
+          "site": "ABD7",
+          "style_code": 34
+        },
+        {
+          "AbsH2": 34.9,
+          "AbsHMax": 40.5,
+          "AbsHMin": 25.5,
+          "BHAConf": 99.0,
+          "BHAProcessDate": "3/8/2023",
+          "BHATopoAreaVersion": 3.0,
+          "CalculatedAreaValue": 151.364448,
+          "ChangeDate": "8/20/2015",
+          "ChangeHistoryCount": 2,
+          "DescriptiveGroup": "Building",
+          "DescriptiveGroupCount": 1,
+          "DescriptiveTerm": "null",
+          "DescriptiveTermCount": 0,
+          "FeatureCode": 10021,
+          "GmlID": "Topography_TopographicArea.90125800",
+          "Make": "Manmade",
+          "OBJECTID": 90125800,
+          "PhysicalLevel": 50,
+          "PhysicalPresence": "null",
+          "ReasonForChange": "Restructured",
+          "RelH2": 9.4,
+          "RelHMax": 15.0,
+          "Shape_Area": 151.36515001,
+          "Shape_Length": 54.49665113,
+          "TOID": "osgb1000039171882",
+          "Theme": "Buildings",
+          "ThemeCount": 1,
+          "Version": 3,
+          "VersionDate": "8/20/2015",
+          "bearing_to_point": 1.9227834549351428,
+          "distance_to_point": 0.0,
+          "geometry": {
+            "coordinates": [
+              [
+                [
+                  [
+                    393664.95,
+                    805972.85
+                  ],
+                  [
+                    393658.14,
+                    805986.22
+                  ],
+                  [
+                    393651.4,
+                    805982.8
+                  ],
+                  [
+                    393650.2,
+                    805985.0
+                  ],
+                  [
+                    393648.35,
+                    805984.15
+                  ],
+                  [
+                    393656.25,
+                    805968.4
+                  ],
+                  [
+                    393661.222,
+                    805970.943
+                  ],
+                  [
+                    393664.95,
+                    805972.85
+                  ]
+                ]
+              ]
+            ],
+            "type": "MultiPolygon"
+          },
+          "lat": 805977.529831923,
+          "lon": 393656.9593068028,
+          "site": "ABD7",
+          "style_code": 34
+        },
+        {
+          "AbsH2": 41.9,
+          "AbsHMax": 48.0,
+          "AbsHMin": 25.5,
+          "BHAConf": 99.0,
+          "BHAProcessDate": "3/8/2023",
+          "BHATopoAreaVersion": 5.0,
+          "CalculatedAreaValue": 215.258272,
+          "ChangeDate": "4/1/1992",
+          "ChangeHistoryCount": 2,
+          "DescriptiveGroup": "Building",
+          "DescriptiveGroupCount": 1,
+          "DescriptiveTerm": "null",
+          "DescriptiveTermCount": 0,
+          "FeatureCode": 10021,
+          "GmlID": "Topography_TopographicArea.90125801",
+          "Make": "Manmade",
+          "OBJECTID": 90125801,
+          "PhysicalLevel": 50,
+          "PhysicalPresence": "null",
+          "ReasonForChange": "New",
+          "RelH2": 16.4,
+          "RelHMax": 22.5,
+          "Shape_Area": 215.25825,
+          "Shape_Length": 83.72634575,
+          "TOID": "osgb1000039171883",
+          "Theme": "Buildings",
+          "ThemeCount": 1,
+          "Version": 5,
+          "VersionDate": "12/13/2004",
+          "bearing_to_point": 10.740169208741008,
+          "distance_to_point": 9.238399942921024,
+          "geometry": {
+            "coordinates": [
+              [
+                [
+                  [
+                    393654.15,
+                    805997.89
+                  ],
+                  [
+                    393653.3,
+                    805998.55
+                  ],
+                  [
+                    393653.25,
+                    805998.95
+                  ],
+                  [
+                    393651.7,
+                    806000.0
+                  ],
+                  [
+                    393650.85,
+                    806000.6
+                  ],
+                  [
+                    393650.4,
+                    806000.0
+                  ],
+                  [
+                    393649.35,
+                    805998.65
+                  ],
+                  [
+                    393651.2,
+                    805997.2
+                  ],
+                  [
+                    393648.9,
+                    805994.4
+                  ],
+                  [
+                    393655.59,
+                    805989.05
+                  ],
+                  [
+                    393656.65,
+                    805989.05
+                  ],
+                  [
+                    393657.3,
+                    805987.88
+                  ],
+                  [
+                    393659.8,
+                    805989.05
+                  ],
+                  [
+                    393660.65,
+                    805987.5
+                  ],
+                  [
+                    393658.14,
+                    805986.22
+                  ],
+                  [
+                    393664.95,
+                    805972.85
+                  ],
+                  [
+                    393672.75,
+                    805976.7
+                  ],
+                  [
+                    393667.35,
+                    805987.55
+                  ],
+                  [
+                    393654.15,
+                    805997.89
+                  ]
+                ]
+              ]
+            ],
+            "type": "MultiPolygon"
+          },
+          "lat": 805986.070652774,
+          "lon": 393661.64272607054,
+          "site": "ABD7",
+          "style_code": 34
+        },
+        {
+          "AbsH2": 30.7,
+          "AbsHMax": 38.9,
+          "AbsHMin": 25.4,
+          "BHAConf": 99.0,
+          "BHAProcessDate": "3/8/2023",
+          "BHATopoAreaVersion": 4.0,
+          "CalculatedAreaValue": 198.263744,
+          "ChangeDate": "12/9/1987",
+          "ChangeHistoryCount": 2,
+          "DescriptiveGroup": "Building",
+          "DescriptiveGroupCount": 1,
+          "DescriptiveTerm": "null",
+          "DescriptiveTermCount": 0,
+          "FeatureCode": 10021,
+          "GmlID": "Topography_TopographicArea.90125802",
+          "Make": "Manmade",
+          "OBJECTID": 90125802,
+          "PhysicalLevel": 50,
+          "PhysicalPresence": "null",
+          "ReasonForChange": "New",
+          "RelH2": 5.3,
+          "RelHMax": 13.5,
+          "Shape_Area": 198.26375,
+          "Shape_Length": 73.68363162,
+          "TOID": "osgb1000039171884",
+          "Theme": "Buildings",
+          "ThemeCount": 1,
+          "Version": 4,
+          "VersionDate": "11/5/2001",
+          "bearing_to_point": 18.708046573461047,
+          "distance_to_point": 17.94356098219147,
+          "geometry": {
+            "coordinates": [
+              [
+                [
+                  [
+                    393654.15,
+                    805997.89
+                  ],
+                  [
+                    393667.35,
+                    805987.55
+                  ],
+                  [
+                    393672.75,
+                    805976.7
+                  ],
+                  [
+                    393678.23,
+                    805979.5
+                  ],
+                  [
+                    393671.5,
+                    805993.1
+                  ],
+                  [
+                    393670.82,
+                    805993.61
+                  ],
+                  [
+                    393662.4,
+                    806000.0
+                  ],
+                  [
+                    393658.1,
+                    806003.25
+                  ],
+                  [
+                    393655.7,
+                    806000.0
+                  ],
+                  [
+                    393654.15,
+                    805997.89
+                  ]
+                ]
+              ]
+            ],
+            "type": "MultiPolygon"
+          },
+          "lat": 805990.6942887736,
+          "lon": 393666.9485162987,
+          "site": "ABD7",
+          "style_code": 34
+        },
+        {
+          "AbsH2": 39.7,
+          "AbsHMax": 45.6,
+          "AbsHMin": 25.4,
+          "BHAConf": 99.0,
+          "BHAProcessDate": "3/8/2023",
+          "BHATopoAreaVersion": 2.0,
+          "CalculatedAreaValue": 204.447072,
+          "ChangeDate": "6/26/2001",
+          "ChangeHistoryCount": 2,
+          "DescriptiveGroup": "Building",
+          "DescriptiveGroupCount": 1,
+          "DescriptiveTerm": "null",
+          "DescriptiveTermCount": 0,
+          "FeatureCode": 10021,
+          "GmlID": "Topography_TopographicArea.90125803",
+          "Make": "Manmade",
+          "OBJECTID": 90125803,
+          "PhysicalLevel": 50,
+          "PhysicalPresence": "null",
+          "ReasonForChange": "Attributes",
+          "RelH2": 14.3,
+          "RelHMax": 20.2,
+          "Shape_Area": 204.4471,
+          "Shape_Length": 58.03437795,
+          "TOID": "osgb1000039171885",
+          "Theme": "Buildings",
+          "ThemeCount": 1,
+          "Version": 2,
+          "VersionDate": "11/5/2001",
+          "bearing_to_point": 41.70868289348465,
+          "distance_to_point": 24.09853277693193,
+          "geometry": {
+            "coordinates": [
+              [
+                [
+                  [
+                    393682.8,
+                    805999.4
+                  ],
+                  [
+                    393678.75,
+                    805997.35
+                  ],
+                  [
+                    393675.15,
+                    805995.6
+                  ],
+                  [
+                    393670.82,
+                    805993.61
+                  ],
+                  [
+                    393671.5,
+                    805993.1
+                  ],
+                  [
+                    393678.23,
+                    805979.5
+                  ],
+                  [
+                    393689.86,
+                    805985.44
+                  ],
+                  [
+                    393682.8,
+                    805999.4
+                  ]
+                ]
+              ]
+            ],
+            "type": "MultiPolygon"
+          },
+          "lat": 805989.4850257091,
+          "lon": 393680.5097532508,
+          "site": "ABD7",
+          "style_code": 34
+        },
+        {
+          "AbsH2": 40.2,
+          "AbsHMax": 43.0,
+          "AbsHMin": 25.5,
+          "BHAConf": 99.0,
+          "BHAProcessDate": "3/8/2023",
+          "BHATopoAreaVersion": 4.0,
+          "CalculatedAreaValue": 678.665568,
+          "ChangeDate": "6/15/2015",
+          "ChangeHistoryCount": 3,
+          "DescriptiveGroup": "Building",
+          "DescriptiveGroupCount": 1,
+          "DescriptiveTerm": "null",
+          "DescriptiveTermCount": 0,
+          "FeatureCode": 10021,
+          "GmlID": "Topography_TopographicArea.90125805",
+          "Make": "Manmade",
+          "OBJECTID": 90125805,
+          "PhysicalLevel": 50,
+          "PhysicalPresence": "null",
+          "ReasonForChange": "Modified",
+          "RelH2": 14.7,
+          "RelHMax": 17.5,
+          "Shape_Area": 678.66545,
+          "Shape_Length": 123.16716974,
+          "TOID": "osgb1000039171888",
+          "Theme": "Buildings",
+          "ThemeCount": 1,
+          "Version": 4,
+          "VersionDate": "6/16/2015",
+          "bearing_to_point": 187.26322428766048,
+          "distance_to_point": 27.877969886610636,
+          "geometry": {
+            "coordinates": [
+              [
+                [
+                  [
+                    393663.59,
+                    805942.42
+                  ],
+                  [
+                    393650.25,
+                    805935.6
+                  ],
+                  [
+                    393656.603,
+                    805923.088
+                  ],
+                  [
+                    393656.8,
+                    805922.7
+                  ],
+                  [
+                    393657.1,
+                    805922.6
+                  ],
+                  [
+                    393670.9,
+                    805895.65
+                  ],
+                  [
+                    393673.3,
+                    805895.1
+                  ],
+                  [
+                    393683.5,
+                    805903.8
+                  ],
+                  [
+                    393671.96,
+                    805926.21
+                  ],
+                  [
+                    393671.4,
+                    805927.3
+                  ],
+                  [
+                    393673.1,
+                    805928.2
+                  ],
+                  [
+                    393672.25,
+                    805929.7
+                  ],
+                  [
+                    393671.62,
+                    805930.81
+                  ],
+                  [
+                    393669.9,
+                    805929.95
+                  ],
+                  [
+                    393663.59,
+                    805942.42
+                  ]
+                ]
+              ]
+            ],
+            "type": "MultiPolygon"
+          },
+          "lat": 805919.0316426798,
+          "lon": 393667.2296137403,
+          "site": "ABD7",
+          "style_code": 34
+        },
+        {
+          "AbsH2": 40.9,
+          "AbsHMax": 42.6,
+          "AbsHMin": 25.5,
+          "BHAConf": 99.0,
+          "BHAProcessDate": "3/8/2023",
+          "BHATopoAreaVersion": 3.0,
+          "CalculatedAreaValue": 147.854688,
+          "ChangeDate": "1/1/1970",
+          "ChangeHistoryCount": 1,
+          "DescriptiveGroup": "Building",
+          "DescriptiveGroupCount": 1,
+          "DescriptiveTerm": "null",
+          "DescriptiveTermCount": 0,
+          "FeatureCode": 10021,
+          "GmlID": "Topography_TopographicArea.90125806",
+          "Make": "Manmade",
+          "OBJECTID": 90125806,
+          "PhysicalLevel": 50,
+          "PhysicalPresence": "null",
+          "ReasonForChange": "New",
+          "RelH2": 15.4,
+          "RelHMax": 17.1,
+          "Shape_Area": 147.8547,
+          "Shape_Length": 49.12788077,
+          "TOID": "osgb1000039171889",
+          "Theme": "Buildings",
+          "ThemeCount": 1,
+          "Version": 3,
+          "VersionDate": "2/12/2009",
+          "bearing_to_point": 185.8343609147184,
+          "distance_to_point": 27.265083151975332,
+          "geometry": {
+            "coordinates": [
+              [
+                [
+                  [
+                    393671.62,
+                    805930.81
+                  ],
+                  [
+                    393673.06,
+                    805931.54
+                  ],
+                  [
+                    393674.32,
+                    805932.17
+                  ],
+                  [
+                    393679.37,
+                    805934.71
+                  ],
+                  [
+                    393673.04,
+                    805947.02
+                  ],
+                  [
+                    393672.95,
+                    805947.2
+                  ],
+                  [
+                    393663.59,
+                    805942.42
+                  ],
+                  [
+                    393669.9,
+                    805929.95
+                  ],
+                  [
+                    393671.62,
+                    805930.81
+                  ]
+                ]
+              ]
+            ],
+            "type": "MultiPolygon"
+          },
+          "lat": 805938.5622097267,
+          "lon": 393671.46048819093,
+          "site": "ABD7",
+          "style_code": 34
+        },
+        {
+          "AbsH2": 30.4,
+          "AbsHMax": 34.6,
+          "AbsHMin": 25.4,
+          "BHAConf": 99.0,
+          "BHAProcessDate": "3/8/2023",
+          "BHATopoAreaVersion": 3.0,
+          "CalculatedAreaValue": 274.388096,
+          "ChangeDate": "2/11/2009",
+          "ChangeHistoryCount": 2,
+          "DescriptiveGroup": "Building",
+          "DescriptiveGroupCount": 1,
+          "DescriptiveTerm": "null",
+          "DescriptiveTermCount": 0,
+          "FeatureCode": 10021,
+          "GmlID": "Topography_TopographicArea.90125807",
+          "Make": "Manmade",
+          "OBJECTID": 90125807,
+          "PhysicalLevel": 50,
+          "PhysicalPresence": "null",
+          "ReasonForChange": "Attributes",
+          "RelH2": 5.0,
+          "RelHMax": 9.2,
+          "Shape_Area": 274.38810001,
+          "Shape_Length": 77.51259464,
+          "TOID": "osgb1000039171890",
+          "Theme": "Buildings",
+          "ThemeCount": 1,
+          "Version": 3,
+          "VersionDate": "2/12/2009",
+          "bearing_to_point": 196.89406810274048,
+          "distance_to_point": 41.27858665998701,
+          "geometry": {
+            "coordinates": [
+              [
+                [
+                  [
+                    393674.32,
+                    805932.17
+                  ],
+                  [
+                    393676.25,
+                    805928.45
+                  ],
+                  [
+                    393674.88,
+                    805927.73
+                  ],
+                  [
+                    393671.96,
+                    805926.21
+                  ],
+                  [
+                    393683.5,
+                    805903.8
+                  ],
+                  [
+                    393691.65,
+                    805910.8
+                  ],
+                  [
+                    393679.37,
+                    805934.71
+                  ],
+                  [
+                    393674.32,
+                    805932.17
+                  ]
+                ]
+              ]
+            ],
+            "type": "MultiPolygon"
+          },
+          "lat": 805919.0874956622,
+          "lon": 393681.65260640124,
+          "site": "ABD7",
+          "style_code": 34
+        },
+        {
+          "AbsH2": 31.0,
+          "AbsHMax": 36.0,
+          "AbsHMin": 25.4,
+          "BHAConf": 99.0,
+          "BHAProcessDate": "3/8/2023",
+          "BHATopoAreaVersion": 2.0,
+          "CalculatedAreaValue": 550.91584,
+          "ChangeDate": "1/1/1970",
+          "ChangeHistoryCount": 1,
+          "DescriptiveGroup": "Building",
+          "DescriptiveGroupCount": 1,
+          "DescriptiveTerm": "null",
+          "DescriptiveTermCount": 0,
+          "FeatureCode": 10021,
+          "GmlID": "Topography_TopographicArea.90125808",
+          "Make": "Manmade",
+          "OBJECTID": 90125808,
+          "PhysicalLevel": 50,
+          "PhysicalPresence": "null",
+          "ReasonForChange": "New",
+          "RelH2": 5.6,
+          "RelHMax": 10.6,
+          "Shape_Area": 550.91589998,
+          "Shape_Length": 106.59125118,
+          "TOID": "osgb1000039171891",
+          "Theme": "Buildings",
+          "ThemeCount": 1,
+          "Version": 2,
+          "VersionDate": "11/5/2001",
+          "bearing_to_point": 195.67518951113482,
+          "distance_to_point": 27.86465870952714,
+          "geometry": {
+            "coordinates": [
+              [
+                [
+                  [
+                    393691.65,
+                    805910.8
+                  ],
+                  [
+                    393702.63,
+                    805920.52
+                  ],
+                  [
+                    393685.59,
+                    805953.47
+                  ],
+                  [
+                    393673.04,
+                    805947.02
+                  ],
+                  [
+                    393679.37,
+                    805934.71
+                  ],
+                  [
+                    393691.65,
+                    805910.8
+                  ]
+                ]
+              ]
+            ],
+            "type": "MultiPolygon"
+          },
+          "lat": 805932.8694085558,
+          "lon": 393688.1483471905,
+          "site": "ABD7",
+          "style_code": 34
+        },
+        {
+          "AbsH2": 31.2,
+          "AbsHMax": 34.9,
+          "AbsHMin": 25.6,
+          "BHAConf": 99.0,
+          "BHAProcessDate": "3/8/2023",
+          "BHATopoAreaVersion": 2.0,
+          "CalculatedAreaValue": 467.262976,
+          "ChangeDate": "1/1/1970",
+          "ChangeHistoryCount": 1,
+          "DescriptiveGroup": "Building",
+          "DescriptiveGroupCount": 1,
+          "DescriptiveTerm": "null",
+          "DescriptiveTermCount": 0,
+          "FeatureCode": 10021,
+          "GmlID": "Topography_TopographicArea.90125809",
+          "Make": "Manmade",
+          "OBJECTID": 90125809,
+          "PhysicalLevel": 50,
+          "PhysicalPresence": "null",
+          "ReasonForChange": "New",
+          "RelH2": 5.6,
+          "RelHMax": 9.3,
+          "Shape_Area": 467.26300001,
+          "Shape_Length": 97.70642258,
+          "TOID": "osgb1000039171892",
+          "Theme": "Buildings",
+          "ThemeCount": 1,
+          "Version": 2,
+          "VersionDate": "11/5/2001",
+          "bearing_to_point": 194.22323917740576,
+          "distance_to_point": 33.25704594520384,
+          "geometry": {
+            "coordinates": [
+              [
+                [
+                  [
+                    393685.59,
+                    805953.47
+                  ],
+                  [
+                    393702.63,
+                    805920.52
+                  ],
+                  [
+                    393712.95,
+                    805929.55
+                  ],
+                  [
+                    393705.84,
+                    805942.95
+                  ],
+                  [
+                    393697.24,
+                    805959.47
+                  ],
+                  [
+                    393685.59,
+                    805953.47
+                  ]
+                ]
+              ]
+            ],
+            "type": "MultiPolygon"
+          },
+          "lat": 805940.6430417289,
+          "lon": 393699.52689203154,
+          "site": "ABD7",
+          "style_code": 34
+        },
+        {
+          "AbsH2": 41.9,
+          "AbsHMax": 47.1,
+          "AbsHMin": 25.6,
+          "BHAConf": 99.0,
+          "BHAProcessDate": "3/8/2023",
+          "BHATopoAreaVersion": 2.0,
+          "CalculatedAreaValue": 194.054528,
+          "ChangeDate": "1/1/1970",
+          "ChangeHistoryCount": 1,
+          "DescriptiveGroup": "Building",
+          "DescriptiveGroupCount": 1,
+          "DescriptiveTerm": "null",
+          "DescriptiveTermCount": 0,
+          "FeatureCode": 10021,
+          "GmlID": "Topography_TopographicArea.90125810",
+          "Make": "Manmade",
+          "OBJECTID": 90125810,
+          "PhysicalLevel": 50,
+          "PhysicalPresence": "null",
+          "ReasonForChange": "New",
+          "RelH2": 16.3,
+          "RelHMax": 21.5,
+          "Shape_Area": 194.05455001,
+          "Shape_Length": 58.11073874,
+          "TOID": "osgb1000039171893",
+          "Theme": "Buildings",
+          "ThemeCount": 1,
+          "Version": 2,
+          "VersionDate": "11/5/2001",
+          "bearing_to_point": 170.55653194118656,
+          "distance_to_point": 42.049227162909084,
+          "geometry": {
+            "coordinates": [
+              [
+                [
+                  [
+                    393714.9,
+                    805947.56
+                  ],
+                  [
+                    393706.71,
+                    805964.34
+                  ],
+                  [
+                    393697.24,
+                    805959.47
+                  ],
+                  [
+                    393705.84,
+                    805942.95
+                  ],
+                  [
+                    393714.9,
+                    805947.56
+                  ]
+                ]
+              ]
+            ],
+            "type": "MultiPolygon"
+          },
+          "lat": 805953.6453637728,
+          "lon": 393706.1418731408,
+          "site": "ABD7",
+          "style_code": 34
+        },
+        {
+          "AbsH2": 33.7,
+          "AbsHMax": 37.8,
+          "AbsHMin": 26.3,
+          "BHAConf": 99.0,
+          "BHAProcessDate": "3/8/2023",
+          "BHATopoAreaVersion": 3.0,
+          "CalculatedAreaValue": 70.305024,
+          "ChangeDate": "6/22/2006",
+          "ChangeHistoryCount": 2,
+          "DescriptiveGroup": "Building",
+          "DescriptiveGroupCount": 1,
+          "DescriptiveTerm": "null",
+          "DescriptiveTermCount": 0,
+          "FeatureCode": 10021,
+          "GmlID": "Topography_TopographicArea.90129080",
+          "Make": "Manmade",
+          "OBJECTID": 90129080,
+          "PhysicalLevel": 50,
+          "PhysicalPresence": "null",
+          "ReasonForChange": "Attributes",
+          "RelH2": 7.4,
+          "RelHMax": 11.5,
+          "Shape_Area": 70.3051,
+          "Shape_Length": 33.72281578,
+          "TOID": "osgb1000039176238",
+          "Theme": "Buildings",
+          "ThemeCount": 1,
+          "Version": 3,
+          "VersionDate": "9/19/2006",
+          "bearing_to_point": 354.6057280143508,
+          "distance_to_point": 49.659139591761445,
+          "geometry": {
+            "coordinates": [
+              [
+                [
+                  [
+                    393657.53,
+                    806026.48
+                  ],
+                  [
+                    393651.37,
+                    806030.75
+                  ],
+                  [
+                    393645.96,
+                    806023.21
+                  ],
+                  [
+                    393648.55,
+                    806021.4
+                  ],
+                  [
+                    393650.1,
+                    806020.3
+                  ],
+                  [
+                    393652.2,
+                    806018.83
+                  ],
+                  [
+                    393657.53,
+                    806026.48
+                  ]
+                ]
+              ]
+            ],
+            "type": "MultiPolygon"
+          },
+          "lat": 806024.8052503421,
+          "lon": 393651.7605235111,
+          "site": "ABD7",
+          "style_code": 34
+        },
+        {
+          "AbsH2": 37.9,
+          "AbsHMax": 40.1,
+          "AbsHMin": 26.4,
+          "BHAConf": 99.0,
+          "BHAProcessDate": "3/8/2023",
+          "BHATopoAreaVersion": 3.0,
+          "CalculatedAreaValue": 11.451456,
+          "ChangeDate": "6/29/2006",
+          "ChangeHistoryCount": 2,
+          "DescriptiveGroup": "Building",
+          "DescriptiveGroupCount": 1,
+          "DescriptiveTerm": "null",
+          "DescriptiveTermCount": 0,
+          "FeatureCode": 10021,
+          "GmlID": "Topography_TopographicArea.90129081",
+          "Make": "Manmade",
+          "OBJECTID": 90129081,
+          "PhysicalLevel": 50,
+          "PhysicalPresence": "null",
+          "ReasonForChange": "Attributes",
+          "RelH2": 11.5,
+          "RelHMax": 13.7,
+          "Shape_Area": 11.45145,
+          "Shape_Length": 21.11165214,
+          "TOID": "osgb1000039176239",
+          "Theme": "Buildings",
+          "ThemeCount": 1,
+          "Version": 3,
+          "VersionDate": "9/19/2006",
+          "bearing_to_point": 358.82042952068866,
+          "distance_to_point": 48.887339721022926,
+          "geometry": {
+            "coordinates": [
+              [
+                [
+                  [
+                    393652.2,
+                    806018.83
+                  ],
+                  [
+                    393653.19,
+                    806018.13
+                  ],
+                  [
+                    393658.55,
+                    806025.77
+                  ],
+                  [
+                    393657.53,
+                    806026.48
+                  ],
+                  [
+                    393652.2,
+                    806018.83
+                  ]
+                ]
+              ]
+            ],
+            "type": "MultiPolygon"
+          },
+          "lat": 806022.3181761843,
+          "lon": 393655.3785809948,
+          "site": "ABD7",
+          "style_code": 34
+        },
+        {
+          "AbsH2": 37.5,
+          "AbsHMax": 39.7,
+          "AbsHMin": 26.3,
+          "BHAConf": 99.0,
+          "BHAProcessDate": "3/8/2023",
+          "BHATopoAreaVersion": 3.0,
+          "CalculatedAreaValue": 118.740192,
+          "ChangeDate": "6/29/2006",
+          "ChangeHistoryCount": 2,
+          "DescriptiveGroup": "Building",
+          "DescriptiveGroupCount": 1,
+          "DescriptiveTerm": "null",
+          "DescriptiveTermCount": 0,
+          "FeatureCode": 10021,
+          "GmlID": "Topography_TopographicArea.90129082",
+          "Make": "Manmade",
+          "OBJECTID": 90129082,
+          "PhysicalLevel": 50,
+          "PhysicalPresence": "null",
+          "ReasonForChange": "Attributes",
+          "RelH2": 11.2,
+          "RelHMax": 13.4,
+          "Shape_Area": 118.74015,
+          "Shape_Length": 46.07969033,
+          "TOID": "osgb1000039176240",
+          "Theme": "Buildings",
+          "ThemeCount": 1,
+          "Version": 3,
+          "VersionDate": "9/19/2006",
+          "bearing_to_point": 5.60862057262608,
+          "distance_to_point": 42.23220151728531,
+          "geometry": {
+            "coordinates": [
+              [
+                [
+                  [
+                    393663.45,
+                    806010.98
+                  ],
+                  [
+                    393664.2,
+                    806012.04
+                  ],
+                  [
+                    393664.6,
+                    806012.6
+                  ],
+                  [
+                    393668.78,
+                    806018.68
+                  ],
+                  [
+                    393658.55,
+                    806025.77
+                  ],
+                  [
+                    393653.19,
+                    806018.13
+                  ],
+                  [
+                    393656.45,
+                    806015.85
+                  ],
+                  [
+                    393655.75,
+                    806014.9
+                  ],
+                  [
+                    393657.3,
+                    806013.85
+                  ],
+                  [
+                    393658.0,
+                    806014.85
+                  ],
+                  [
+                    393663.45,
+                    806010.98
+                  ]
+                ]
+              ]
+            ],
+            "type": "MultiPolygon"
+          },
+          "lat": 806018.324040836,
+          "lon": 393660.9230789473,
+          "site": "ABD7",
+          "style_code": 34
+        },
+        {
+          "AbsH2": 37.8,
+          "AbsHMax": 41.1,
+          "AbsHMin": 26.0,
+          "BHAConf": 99.0,
+          "BHAProcessDate": "3/8/2023",
+          "BHATopoAreaVersion": 2.0,
+          "CalculatedAreaValue": 91.204064,
+          "ChangeDate": "12/9/1987",
+          "ChangeHistoryCount": 1,
+          "DescriptiveGroup": "Building",
+          "DescriptiveGroupCount": 1,
+          "DescriptiveTerm": "null",
+          "DescriptiveTermCount": 0,
+          "FeatureCode": 10021,
+          "GmlID": "Topography_TopographicArea.90129083",
+          "Make": "Manmade",
+          "OBJECTID": 90129083,
+          "PhysicalLevel": 50,
+          "PhysicalPresence": "null",
+          "ReasonForChange": "New",
+          "RelH2": 11.8,
+          "RelHMax": 15.1,
+          "Shape_Area": 91.20405,
+          "Shape_Length": 39.2274507,
+          "TOID": "osgb1000039176241",
+          "Theme": "Buildings",
+          "ThemeCount": 1,
+          "Version": 2,
+          "VersionDate": "11/5/2001",
+          "bearing_to_point": 19.507390227191024,
+          "distance_to_point": 40.331593881138296,
+          "geometry": {
+            "coordinates": [
+              [
+                [
+                  [
+                    393674.1,
+                    806005.57
+                  ],
+                  [
+                    393678.43,
+                    806011.99
+                  ],
+                  [
+                    393668.78,
+                    806018.68
+                  ],
+                  [
+                    393664.6,
+                    806012.6
+                  ],
+                  [
+                    393667.5,
+                    806010.5
+                  ],
+                  [
+                    393667.2,
+                    806010.0
+                  ],
+                  [
+                    393674.1,
+                    806005.57
+                  ]
+                ]
+              ]
+            ],
+            "type": "MultiPolygon"
+          },
+          "lat": 806012.094371354,
+          "lon": 393671.47038884973,
+          "site": "ABD7",
+          "style_code": 34
+        },
+        {
+          "AbsH2": 37.9,
+          "AbsHMax": 40.5,
+          "AbsHMin": 25.8,
+          "BHAConf": 99.0,
+          "BHAProcessDate": "3/8/2023",
+          "BHATopoAreaVersion": 5.0,
+          "CalculatedAreaValue": 136.392264,
+          "ChangeDate": "8/20/2015",
+          "ChangeHistoryCount": 3,
+          "DescriptiveGroup": "Building",
+          "DescriptiveGroupCount": 1,
+          "DescriptiveTerm": "null",
+          "DescriptiveTermCount": 0,
+          "FeatureCode": 10021,
+          "GmlID": "Topography_TopographicArea.90129084",
+          "Make": "Manmade",
+          "OBJECTID": 90129084,
+          "PhysicalLevel": 50,
+          "PhysicalPresence": "null",
+          "ReasonForChange": "Modified",
+          "RelH2": 12.1,
+          "RelHMax": 14.7,
+          "Shape_Area": 136.3922645,
+          "Shape_Length": 50.85010767,
+          "TOID": "osgb1000039176243",
+          "Theme": "Buildings",
+          "ThemeCount": 1,
+          "Version": 5,
+          "VersionDate": "8/20/2015",
+          "bearing_to_point": 20.49413382399706,
+          "distance_to_point": 32.265762327782866,
+          "geometry": {
+            "coordinates": [
+              [
+                [
+                  [
+                    393678.75,
+                    805997.35
+                  ],
+                  [
+                    393678.2,
+                    805998.45
+                  ],
+                  [
+                    393679.25,
+                    806000.0
+                  ],
+                  [
+                    393680.25,
+                    806001.37
+                  ],
+                  [
+                    393674.1,
+                    806005.57
+                  ],
+                  [
+                    393667.2,
+                    806010.0
+                  ],
+                  [
+                    393665.541,
+                    806011.128
+                  ],
+                  [
+                    393661.279,
+                    806004.401
+                  ],
+                  [
+                    393664.3,
+                    806002.5
+                  ],
+                  [
+                    393668.35,
+                    806000.0
+                  ],
+                  [
+                    393669.7,
+                    805999.25
+                  ],
+                  [
+                    393675.15,
+                    805995.6
+                  ],
+                  [
+                    393678.75,
+                    805997.35
+                  ]
+                ]
+              ]
+            ],
+            "type": "MultiPolygon"
+          },
+          "lat": 806003.0738599258,
+          "lon": 393670.7583009532,
+          "site": "ABD7",
+          "style_code": 34
+        },
+        {
+          "AbsH2": 39.6,
+          "AbsHMax": 46.2,
+          "AbsHMin": 25.3,
+          "BHAConf": 99.0,
+          "BHAProcessDate": "3/8/2023",
+          "BHATopoAreaVersion": 6.0,
+          "CalculatedAreaValue": 246.225536,
+          "ChangeDate": "6/11/2010",
+          "ChangeHistoryCount": 4,
+          "DescriptiveGroup": "Building",
+          "DescriptiveGroupCount": 1,
+          "DescriptiveTerm": "null",
+          "DescriptiveTermCount": 0,
+          "FeatureCode": 10021,
+          "GmlID": "Topography_TopographicArea.92920728",
+          "Make": "Manmade",
+          "OBJECTID": 92920728,
+          "PhysicalLevel": 50,
+          "PhysicalPresence": "null",
+          "ReasonForChange": "Attributes",
+          "RelH2": 14.3,
+          "RelHMax": 20.9,
+          "Shape_Area": 246.22555,
+          "Shape_Length": 74.89096035,
+          "TOID": "osgb1000043008458",
+          "Theme": "Buildings",
+          "ThemeCount": 1,
+          "Version": 6,
+          "VersionDate": "6/16/2010",
+          "bearing_to_point": 44.314217484652374,
+          "distance_to_point": 37.15144740340352,
+          "geometry": {
+            "coordinates": [
+              [
+                [
+                  [
+                    393680.25,
+                    806001.37
+                  ],
+                  [
+                    393682.25,
+                    806000.0
+                  ],
+                  [
+                    393682.8,
+                    805999.4
+                  ],
+                  [
+                    393689.86,
+                    805985.44
+                  ],
+                  [
+                    393696.15,
+                    805988.65
+                  ],
+                  [
+                    393696.75,
+                    805988.65
+                  ],
+                  [
+                    393698.25,
+                    805992.45
+                  ],
+                  [
+                    393697.3,
+                    805992.95
+                  ],
+                  [
+                    393696.15,
+                    805995.3
+                  ],
+                  [
+                    393695.3,
+                    805995.1
+                  ],
+                  [
+                    393692.75,
+                    806000.0
+                  ],
+                  [
+                    393691.35,
+                    806002.6
+                  ],
+                  [
+                    393691.2,
+                    806002.9
+                  ],
+                  [
+                    393690.25,
+                    806003.85
+                  ],
+                  [
+                    393688.95,
+                    806004.7
+                  ],
+                  [
+                    393678.43,
+                    806011.99
+                  ],
+                  [
+                    393674.1,
+                    806005.57
+                  ],
+                  [
+                    393680.25,
+                    806001.37
+                  ]
+                ]
+              ]
+            ],
+            "type": "MultiPolygon"
+          },
+          "lat": 805998.8200163874,
+          "lon": 393687.0075060773,
+          "site": "ABD7",
+          "style_code": 34
+        },
+        {
+          "AbsH2": 26.7,
+          "AbsHMax": 28.0,
+          "AbsHMin": 25.6,
+          "BHAConf": 99.0,
+          "BHAProcessDate": "3/8/2023",
+          "BHATopoAreaVersion": 1.0,
+          "CalculatedAreaValue": 12.3143,
+          "ChangeDate": "6/15/2015",
+          "ChangeHistoryCount": 1,
+          "DescriptiveGroup": "Building",
+          "DescriptiveGroupCount": 1,
+          "DescriptiveTerm": "null",
+          "DescriptiveTermCount": 0,
+          "FeatureCode": 10021,
+          "GmlID": "Topography_TopographicArea.100011503",
+          "Make": "Manmade",
+          "OBJECTID": 100011503,
+          "PhysicalLevel": 50,
+          "PhysicalPresence": "null",
+          "ReasonForChange": "New",
+          "RelH2": 1.1,
+          "RelHMax": 2.4,
+          "Shape_Area": 12.3143,
+          "Shape_Length": 16.75709582,
+          "TOID": "osgb5000005155294698",
+          "Theme": "Buildings",
+          "ThemeCount": 1,
+          "Version": 1,
+          "VersionDate": "6/16/2015",
+          "bearing_to_point": 131.0284552864332,
+          "distance_to_point": 40.43510477292248,
+          "geometry": {
+            "coordinates": [
+              [
+                [
+                  [
+                    393703.073,
+                    805965.073
+                  ],
+                  [
+                    393702.222,
+                    805966.773
+                  ],
+                  [
+                    393696.43,
+                    805963.873
+                  ],
+                  [
+                    393697.281,
+                    805962.173
+                  ],
+                  [
+                    393703.073,
+                    805965.073
+                  ]
+                ]
+              ]
+            ],
+            "type": "MultiPolygon"
+          },
+          "lat": 805964.4730000002,
+          "lon": 393699.7515,
+          "site": "ABD7",
+          "style_code": 34
+        },
+        {
+          "AbsH2": 30.0,
+          "AbsHMax": 33.3,
+          "AbsHMin": 26.0,
+          "BHAConf": 99.0,
+          "BHAProcessDate": "3/8/2023",
+          "BHATopoAreaVersion": 1.0,
+          "CalculatedAreaValue": 97.63643,
+          "ChangeDate": "8/20/2015",
+          "ChangeHistoryCount": 1,
+          "DescriptiveGroup": "Building",
+          "DescriptiveGroupCount": 1,
+          "DescriptiveTerm": "null",
+          "DescriptiveTermCount": 0,
+          "FeatureCode": 10021,
+          "GmlID": "Topography_TopographicArea.100676052",
+          "Make": "Manmade",
+          "OBJECTID": 100676052,
+          "PhysicalLevel": 50,
+          "PhysicalPresence": "null",
+          "ReasonForChange": "New",
+          "RelH2": 4.0,
+          "RelHMax": 7.3,
+          "Shape_Area": 97.6364295,
+          "Shape_Length": 45.43034381,
+          "TOID": "osgb5000005159842705",
+          "Theme": "Buildings",
+          "ThemeCount": 1,
+          "Version": 1,
+          "VersionDate": "8/20/2015",
+          "bearing_to_point": 346.1550042968779,
+          "distance_to_point": 14.34159004436985,
+          "geometry": {
+            "coordinates": [
+              [
+                [
+                  [
+                    393653.7,
+                    805989.25
+                  ],
+                  [
+                    393651.6,
+                    805989.85
+                  ],
+                  [
+                    393649.85,
+                    805991.3
+                  ],
+                  [
+                    393646.7,
+                    805993.8
+                  ],
+                  [
+                    393645.45,
+                    805994.75
+                  ],
+                  [
+                    393644.946,
+                    805995.145
+                  ],
+                  [
+                    393640.681,
+                    805989.499
+                  ],
+                  [
+                    393642.15,
+                    805988.45
+                  ],
+                  [
+                    393648.05,
+                    805984.65
+                  ],
+                  [
+                    393648.35,
+                    805984.15
+                  ],
+                  [
+                    393650.2,
+                    805985.0
+                  ],
+                  [
+                    393651.4,
+                    805982.8
+                  ],
+                  [
+                    393658.14,
+                    805986.22
+                  ],
+                  [
+                    393657.3,
+                    805987.88
+                  ],
+                  [
+                    393656.65,
+                    805989.05
+                  ],
+                  [
+                    393655.59,
+                    805989.05
+                  ],
+                  [
+                    393655.5,
+                    805989.05
+                  ],
+                  [
+                    393653.7,
+                    805989.25
+                  ]
+                ]
+              ]
+            ],
+            "type": "MultiPolygon"
+          },
+          "lat": 805988.4981585375,
+          "lon": 393649.014086447,
+          "site": "ABD7",
+          "style_code": 34
+        },
+        {
+          "AbsH2": 30.8,
+          "AbsHMax": 32.8,
+          "AbsHMin": 26.6,
+          "BHAConf": 99.0,
+          "BHAProcessDate": "3/8/2023",
+          "BHATopoAreaVersion": 1.0,
+          "CalculatedAreaValue": 33.519937,
+          "ChangeDate": "8/20/2015",
+          "ChangeHistoryCount": 1,
+          "DescriptiveGroup": "Building",
+          "DescriptiveGroupCount": 1,
+          "DescriptiveTerm": "null",
+          "DescriptiveTermCount": 0,
+          "FeatureCode": 10021,
+          "GmlID": "Topography_TopographicArea.100676201",
+          "Make": "Manmade",
+          "OBJECTID": 100676201,
+          "PhysicalLevel": 50,
+          "PhysicalPresence": "null",
+          "ReasonForChange": "New",
+          "RelH2": 4.2,
+          "RelHMax": 6.2,
+          "Shape_Area": 33.5199375,
+          "Shape_Length": 24.23132974,
+          "TOID": "osgb5000005159842863",
+          "Theme": "Buildings",
+          "ThemeCount": 1,
+          "Version": 1,
+          "VersionDate": "8/20/2015",
+          "bearing_to_point": 333.9034025946997,
+          "distance_to_point": 45.95607778088315,
+          "geometry": {
+            "coordinates": [
+              [
+                [
+                  [
+                    393637.1,
+                    806016.713
+                  ],
+                  [
+                    393633.634,
+                    806019.425
+                  ],
+                  [
+                    393633.629,
+                    806019.418
+                  ],
+                  [
+                    393631.09,
+                    806015.95
+                  ],
+                  [
+                    393637.3,
+                    806011.16
+                  ],
+                  [
+                    393639.8,
+                    806014.6
+                  ],
+                  [
+                    393637.1,
+                    806016.713
+                  ]
+                ]
+              ]
+            ],
+            "type": "MultiPolygon"
+          },
+          "lat": 806015.2883291016,
+          "lon": 393635.44905692583,
+          "site": "ABD7",
+          "style_code": 34
+        }
+      ],
+      "elevationScale": 1,
+      "getElevation": "@@=AbsH2",
+      "getFillColor": "@@=[255, 255, RelH2 * 255]",
+      "getPosition": "@@=[lon, lat]",
+      "id": "31e8a1d6-259d-4b3f-b5fb-60aaeb534fd0",
+      "pickable": true,
+      "radius": 100
+    }
+  ],
+  "mapProvider": "carto",
+  "mapStyle": "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
+  "views": [
+    {
+      "@@type": "MapView",
+      "controller": true
+    }
+  ]
+};
+    const tooltip = true;
+    const customLibraries = null;
+    const configuration = null;
+
+    const deckInstance = createDeck({
+                  container,
+      jsonInput,
+      tooltip,
+      customLibraries,
+      configuration
+    });
+
+  </script>
+</html>

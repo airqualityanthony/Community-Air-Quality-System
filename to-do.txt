@@ -1,10 +1,16 @@
-EDA
-    AURN sites
-        Buildings data
-        Average And Indicative Speed
-        Pavement
-        Road Link
-        Meteorology
+Data Ingestion
+    AURN sites [✓]
+        Buildings data [✓]
+        Average And Indicative Speed [✓]
+        Pavement [✓]
+        Road Link [✓]
+        Meteorology [✓]
+    Data Adjustment
+        Distance from point [✓]
+        Bearing to point [✓]
+        Road orientation [ ] 
+        Canyon Factor [ ]
+        
     
 Modelling
     Above data in model for all AURN with annual, monthly, daily means? 
