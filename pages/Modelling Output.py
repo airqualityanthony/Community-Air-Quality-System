@@ -1,8 +1,6 @@
 import streamlit as st
 
-
-import emoji
-st.set_page_config(page_title="Modelling Output", page_icon=emoji.emojize(":chart_with_upwards_trend:"), layout="wide")
+st.set_page_config(page_title="Modelling Output", page_icon="📈", layout="wide")
 
 st.title("Modelling Output")
 
@@ -16,7 +14,6 @@ st.sidebar.title("About")
 st.sidebar.info(markdown)
 logo = "https://i.dailymail.co.uk/i/pix/2016/12/01/17/3AE49E8700000578-3986672-AirVisual_Earth_aims_to_clearly_show_the_effect_that_human_emiss-m-25_1480613072849.jpg"
 st.sidebar.image(logo)
-
 
 
 

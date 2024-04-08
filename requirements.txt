@@ -11,3 +11,6 @@ geopy
 meteostat
 leafmap
 xgboost
+prophet
+pandas
+numpy
