@@ -74,14 +74,14 @@ Draw().add_to(m)
 
 map_placeholder = st.empty()
 
-with map_placeholder:
-    mapdata = st_folium(
+mapdata = st_folium(
     m,
     feature_group_to_add=fg,
     center=[51.23, -1.00],
     width=1200,
-    height=500,)
-## Write Drawing Data to Streamlit
+    height=500)
+
+ ## Write Drawing Data to Streamlit
 longitudes = []
 latitudes = []
 
