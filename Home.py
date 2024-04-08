@@ -234,7 +234,7 @@ if st.button("Submit Model Coordinates"):
         st.write("No data found in the area. Please select another location.")
 
     ## select which day to filter the met data for building windward and leeward visualisation
-    met_day = st.number_input("Select Day", key="met_day", value=20, min_value=0, max_value=len(met_df)-1, step=1)
+    met_day = st.number_input("Select Day", key="met_day", value=1, min_value=0, max_value=len(met_df)-1, step=1)
 
     ## plot the map based on the filter - if the filter changes the map will update
     st.write("Map of the area with buildings and roads")

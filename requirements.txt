@@ -1,5 +1,3 @@
-geemap
-ee
 folium
 streamlit-folium
 osdatahub
@@ -12,3 +10,4 @@ dask
 geopy
 meteostat
 leafmap
+xgboost
