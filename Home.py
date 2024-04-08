@@ -104,7 +104,8 @@ mapdata = st_folium(
     m,
     feature_group_to_add=fg,
     width=1200,
-    height=600)
+    height=600,
+    )
 
  ## Write Drawing Data to Streamlit
 longitudes = []
