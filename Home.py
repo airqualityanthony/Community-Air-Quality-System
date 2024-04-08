@@ -24,7 +24,8 @@ if 'output' not in st.session_state:
     st.session_state['output'] = False
 
 
-st.set_page_config(layout="wide")
+st.set_page_config(page_title="Home", page_icon="☁️", layout="wide")
+
 
 # Customize the sidebar
 markdown = """
