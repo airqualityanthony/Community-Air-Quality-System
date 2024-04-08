@@ -18,6 +18,11 @@ if st.secrets["OS_API_KEY"] is None:
 else:
     key = st.secrets["OS_API_KEY"]
 
+if st.secrets["MAPBOX_TOKEN"] is None:
+    mapbox_key = os.environ.get('MAPBOX_TOKEN')
+else:
+    mapbox_key = st.secrets["MAPBOX_TOKEN"]
+
 
 data_dict = {'average_speeds': 'trn-rami-averageandindicativespeed-1',
  'pavements': 'trn-ntwk-pavementlink-1',
@@ -58,7 +63,7 @@ st.header("Instructions")
 
 markdown = """
 1. Place a marker using the toolset on the left of the map 
-2. Select which year you would like to predict the concentration at the point for. 
+2. Select which years you would like to predict the concentration at the point for. 
 3. Hit Submit and wait for the model to run.
 4. Once complete head to the Modelling Output page to see the results.
 """
@@ -67,9 +72,30 @@ st.markdown(markdown)
 
 st.title("Map")
 
+tileurl = 'https://api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}@2x.png?access_token=' + str(mapbox_key)
 
-m = folium.Map(location=[51.23, -1.00], zoom_start=5)
+m = folium.Map(location=[54, -1.50], zoom_start=6,max_zoom=50)
+tile = folium.TileLayer(
+    tiles='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    attr='Esri',
+    name='Esri Satellite',
+    overlay=True,
+    control=True,
+    show=False,
+).add_to(m)
+
+tile_mapbox = folium.TileLayer(
+    tiles=tileurl,
+    attr='Mapbox',
+    name='Mapbox',
+    overlay=True,
+    control=True,
+    show=False,
+).add_to(m)
+
 fg = folium.FeatureGroup(name="data")
+## add layer control
+folium.LayerControl().add_to(m)
 Draw().add_to(m)
 
 map_placeholder = st.empty()
@@ -77,9 +103,8 @@ map_placeholder = st.empty()
 mapdata = st_folium(
     m,
     feature_group_to_add=fg,
-    center=[51.23, -1.00],
     width=1200,
-    height=500)
+    height=600)
 
  ## Write Drawing Data to Streamlit
 longitudes = []
