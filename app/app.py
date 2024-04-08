@@ -18,6 +18,12 @@ data_dict = {'average_speeds': 'trn-rami-averageandindicativespeed-1',
  'pavement2': 'trn-ntwk-pavementlink-1',
  'roads': 'trn-ntwk-roadlink-2'}
 
+
+## create output in session state and set to False
+if 'output' not in st.session_state:
+    st.session_state['output'] = False
+
+
 st.set_page_config(layout="wide")
 
 # Customize the sidebar
@@ -215,7 +221,8 @@ if st.button("Submit Model Coordinates"):
         progress_bar.empty()
         st.write(output)
         st.write("Data Collection Complete")
-        output.to_csv('output_data.csv',index=False)
+        output.to_csv('output_data.csv',index=True)    
+        st.session_state['output'] = True
     except AttributeError:
         st.write("No data found in the area. Please select another location.")
 
