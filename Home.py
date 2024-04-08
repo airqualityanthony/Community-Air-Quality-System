@@ -375,7 +375,7 @@ if st.button("Submit Model Coordinates"):
         
         # Set the viewport location
     view_state = pdk.ViewState(
-        longitude=lon, latitude=lat, zoom=17, min_zoom=5, max_zoom=20, pitch=0, bearing=0
+        longitude=lon, latitude=lat, zoom=17, min_zoom=5, max_zoom=20, pitch=45, bearing=0
     )
 
     st.pydeck_chart(pdk.Deck(
