@@ -12,7 +12,13 @@ import leafmap.foliumap as leafmap
 from datetime import datetime
 import numpy as np
 
-key = os.environ.get('OS_API_KEY')
+
+if st.secrets["OS_API_KEY"] is None:
+    key = os.environ.get('OS_API_KEY')
+else:
+    key = st.secrets["OS_API_KEY"]
+
+
 data_dict = {'average_speeds': 'trn-rami-averageandindicativespeed-1',
  'pavements': 'trn-ntwk-pavementlink-1',
  'pavement2': 'trn-ntwk-pavementlink-1',
