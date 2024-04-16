@@ -14,3 +14,4 @@ xgboost
 prophet
 pandas
 numpy
+google.cloud
