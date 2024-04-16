@@ -11,6 +11,10 @@ import pandas as pd
 import leafmap.foliumap as leafmap
 from datetime import datetime
 import numpy as np
+import firebase_admin
+from firebase_admin import credentials
+from google.cloud import firestore
+
 
 
 if st.secrets["OS_API_KEY"] is None:
@@ -76,6 +80,7 @@ tileurl = 'https://api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}@2x.png?access_
 
 m = folium.Map(location=[54, -1.50], zoom_start=6,max_zoom=50)
 
+map_col, input_col = st.columns(2)
 # tile = folium.TileLayer(
 #     tiles='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
 #     attr='Esri',
@@ -101,46 +106,48 @@ Draw().add_to(m)
 
 map_placeholder = st.empty()
 
-mapdata = st_folium(
-    m,
-    feature_group_to_add=fg,
-    width=1200,
-    height=600,
-    )
+with map_col:
+    mapdata = st_folium(
+        m,
+        feature_group_to_add=fg,
+        width=1200,
+        height=600,
+        )
 
- ## Write Drawing Data to Streamlit
-longitudes = []
-latitudes = []
+    ## Write Drawing Data to Streamlit
+    longitudes = []
+    latitudes = []
 
-st.write("or enter coordinates below")
+with input_col:
+    st.write("or enter coordinates below")
 
-latcol, loncol = st.columns(2)
+    latcol, loncol = st.columns(2)
 
-with latcol:    
-    st.number_input("Latitude", key="lat",step=1e-5,help="Enter latitude in decimal degrees",format="%.5f")
+    with latcol:    
+        st.number_input("Latitude", key="lat",step=1e-5,help="Enter latitude in decimal degrees",format="%.5f")
 
-with loncol:
-    st.number_input("Longitude", key="lon",step=1e-5,help="Enter longitude in decimal degrees",format="%.5f")
-
-
-if mapdata['all_drawings']:
-    for i in range(0,len(mapdata['all_drawings'])):
-        longitudes.append(mapdata['all_drawings'][i]['geometry']['coordinates'][0])
-        latitudes.append(mapdata['all_drawings'][i]['geometry']['coordinates'][1])
-
-else: 
-    st.write("Please select markers before continuing.")
+    with loncol:
+        st.number_input("Longitude", key="lon",step=1e-5,help="Enter longitude in decimal degrees",format="%.5f")
 
 
-start_date = st.date_input("Start Date", key="start_date", value=datetime(2018, 1, 1))
-end_date = st.date_input("End Date", key="end_date", value=datetime.today())
+    if mapdata['all_drawings']:
+        for i in range(0,len(mapdata['all_drawings'])):
+            longitudes.append(mapdata['all_drawings'][i]['geometry']['coordinates'][0])
+            latitudes.append(mapdata['all_drawings'][i]['geometry']['coordinates'][1])
+
+    else: 
+        st.write("Please select markers before continuing.")
 
 
-start_date = datetime.combine(start_date, datetime.min.time())
-end_date = datetime.combine(end_date, datetime.min.time())
+    start_date = st.date_input("Start Date", key="start_date", value=datetime(2018, 1, 1))
+    end_date = st.date_input("End Date", key="end_date", value=datetime.today())
 
 
-radius = st.number_input("Radius (m)", key="radius", value=75, step=25)
+    start_date = datetime.combine(start_date, datetime.min.time())
+    end_date = datetime.combine(end_date, datetime.min.time())
+
+
+    radius = st.number_input("Radius (m)", key="radius", value=75, step=25)
 
 #### ============= Data Retrieval ================== ####
 if st.button("Submit Model Coordinates"):
@@ -256,6 +263,12 @@ if st.button("Submit Model Coordinates"):
         st.write(output)
         st.write("Data Collection Complete")
         output.to_csv('output_data.csv',index=True)    
+
+
+        # Add the dictionary to Firestore
+        # collection.document('your_document_name').set(output_dict)
+
+
         st.session_state['output'] = True
     except AttributeError:
         st.write("No data found in the area. Please select another location.")

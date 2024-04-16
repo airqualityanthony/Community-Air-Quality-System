@@ -1,4 +1,6 @@
 import streamlit as st
+import os
+
 
 st.set_page_config(page_title="Modelling Output", page_icon="📈", layout="wide")
 
@@ -65,14 +67,30 @@ if st.session_state['output']==True:
 
     ## create dataframe for prophet
     prophet_data = data[['date','no2_pred']]
-    prophet_data.columns = ['ds','y']
+    prophet_data['floor'] = 1
+    prophet_data['cap'] = 200
+    prophet_data.columns = ['ds','y','floor','cap']
+
 
     ## train prophet model
-    m = Prophet()
+    m = Prophet(growth='logistic')
     m.fit(prophet_data)
 
+    ## calculate how many days in the max year available in the prophet data
+    max_year = prophet_data['ds'].dt.year.max()
+    max_date = prophet_data[prophet_data['ds'].dt.year==max_year]['ds'].max()
+    ## calculate how many days left in the max_date year
+    max_date = pd.to_datetime(max_date)
+    end_of_year = pd.to_datetime(f'{max_date.year}-12-31')
+    days_left = end_of_year - max_date
+    
+    ## set periods to complete the year and the next 5 years
+    periods = days_left.days + 365*5
+
     ## make future dataframe
-    future = m.make_future_dataframe(periods=730)
+    future = m.make_future_dataframe(periods=periods)
+    future['floor'] = 1
+    future['cap'] = 200
     forecast = m.predict(future)
     ## subset to only future dates
 
@@ -97,6 +115,75 @@ if st.session_state['output']==True:
 
     st.write(forecast)
 
+    ## write run to DB 
+    # Import the library
+    from google.cloud import firestore
+    from google.oauth2 import service_account
+    import firebase_admin
+
+    # Authenticate to Firestore with the JSON account key.
+    # db = firestore.Client.from_service_account_json("firestore-key.json")
+    import json
+    key_dict = json.loads(st.secrets["textkey"])
+    ## convert to json
+
+        # Convert dict to json and save it as a file
+    with open('keyfile.json', 'w') as fp:
+        json.dump(key_dict, fp)
+
+    # Now you can use this json file to authenticate
+    db = firestore.Client.from_service_account_json('keyfile.json')
+
+    # Remember to remove the json file after you're done
+    os.remove('keyfile.json')
+
+    # Define your groupby columns and aggregation functions
+    groupby_columns = ['year', 'latitude', 'longitude']
+    
+    ## subset data
+    data_sub = data[['year','latitude','longitude','tavg','tmin','tmax','wdir','wspd','elevation','u','v','canyon_factor','windward_height_avg','leeward_height_avg','road_distance','indicatedspeed_kph','no2_pred']]
+    # Use groupby and agg
+    aggregated_output = data_sub.groupby(groupby_columns).mean().reset_index()
+    aggregated_output['type'] = 'modelled'
+    # st.write(aggregated_output)
+
+    ## aggregate the forecast data
+    ### add year column to forecast
+    forecast['year'] = forecast['ds'].dt.year
+    forecast['no2_pred'] = forecast['yhat']
+    groupby_columns = ['year']
+    aggregation_functions = {'no2_pred': 'mean'}
+
+    # Use groupby and agg
+    aggregated_forecast = forecast.groupby(groupby_columns).agg(aggregation_functions).reset_index()
+    ## add longitude and latitude
+    aggregated_forecast['latitude'] = data['latitude'].mean()
+    aggregated_forecast['longitude'] = data['longitude'].mean()
+    aggregated_forecast['type'] = 'forecast'
+
+    # ## add to aggregated_output not using append
+    merged_agg = pd.concat([aggregated_output,aggregated_forecast],axis=0)
+    
+    ## add runTime and runUniqueId
+    merged_agg['runTime'] = pd.to_datetime('now')
+    import uuid
+
+    # Generate a unique ID
+    runUniqueId = str(uuid.uuid4())
+
+    # Add the unique ID to your DataFrame
+    merged_agg['runUniqueId'] = runUniqueId
+
+    ## write to firestore
+    ## convert to dictionary
+    data_dict = merged_agg.to_dict(orient='records')
+
+
+    ## write to firestore
+    for record in data_dict:
+        db.collection('app_runs').add(record)
+
+    st.write("Data has been written to Firestore")
 
 else:
     st.write("No output data has been generated")
