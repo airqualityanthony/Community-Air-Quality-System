@@ -118,8 +118,6 @@ if st.session_state['output']==True:
     ## write run to DB 
     # Import the library
     from google.cloud import firestore
-    from google.oauth2 import service_account
-    import firebase_admin
 
     # Authenticate to Firestore with the JSON account key.
     # db = firestore.Client.from_service_account_json("firestore-key.json")

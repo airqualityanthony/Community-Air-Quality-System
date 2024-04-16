@@ -11,10 +11,6 @@ import pandas as pd
 import leafmap.foliumap as leafmap
 from datetime import datetime
 import numpy as np
-import firebase_admin
-from firebase_admin import credentials
-from google.cloud import firestore
-
 
 
 if st.secrets["OS_API_KEY"] is None:
