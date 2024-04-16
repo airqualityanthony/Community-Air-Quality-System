@@ -1,6 +1,6 @@
 import streamlit as st
 import os
-
+from google.cloud import firestore
 
 st.set_page_config(page_title="Modelling Output", page_icon="📈", layout="wide")
 
@@ -117,7 +117,7 @@ if st.session_state['output']==True:
 
     ## write run to DB 
     # Import the library
-    from google.cloud import firestore
+
 
     # Authenticate to Firestore with the JSON account key.
     # db = firestore.Client.from_service_account_json("firestore-key.json")
