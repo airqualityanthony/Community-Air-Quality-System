@@ -11,6 +11,9 @@ import pandas as pd
 import leafmap.foliumap as leafmap
 from datetime import datetime
 import numpy as np
+from google.cloud import firestore
+import json
+
 
 
 if st.secrets["OS_API_KEY"] is None:
@@ -49,6 +52,26 @@ st.sidebar.info(markdown)
 logo = "https://i.dailymail.co.uk/i/pix/2016/12/01/17/3AE49E8700000578-3986672-AirVisual_Earth_aims_to_clearly_show_the_effect_that_human_emiss-m-25_1480613072849.jpg"
 st.sidebar.image(logo)
 
+st.sidebar.title("Bug Report")
+st.sidebar.info("If you encounter any bugs, please report them below")
+bug_report = st.sidebar.text_area("Enter Bug Report Here")
+if st.sidebar.button("Submit Bug Report"):
+    key_dict = json.loads(st.secrets["textkey"])
+    # Convert dict to json and save it as a file
+    with open('keyfile.json', 'w') as fp:
+        json.dump(key_dict, fp)
+    ## connec to DB
+    db = firestore.Client.from_service_account_json('keyfile.json')
+    data_dict = {'bug_report': bug_report, 'date': datetime.now()}
+    ## write to firestore
+    db.collection('bug_reports').add(data_dict)
+
+    # remove the json file after done
+    os.remove('keyfile.json')
+    st.sidebar.write("Bug Report Submitted")
+
+
+
 # Customize page title
 st.title("Citizen Air Quality System - Web App")
 
@@ -62,13 +85,13 @@ st.markdown(
 st.header("Instructions")
 
 markdown = """
-1. Place a marker using the toolset on the left of the map 
-2. Select which years you would like to predict the concentration at the point for. 
-3. Hit Submit and wait for the model to run.
-4. Once complete head to the Modelling Output page to see the results.
+1. Place a marker using the toolset on the left of the map or enter the coordinates in the input fields.
+2. Select which years you would like to use as input data and model. Select which year you also want to project out to.
+3. Hit Submit and wait for the model to run. A visulisation of the data scrape will be shown below.
+4. Once complete head to the Modelling Output page to see the modelling results.
 """
 
-st.markdown(markdown)
+st.write(markdown)
 
 st.title("Map")
 
@@ -133,11 +156,14 @@ with input_col:
 
     else: 
         st.write("Please select markers before continuing.")
+    
+    st.session_state['projection_date'] = datetime.today()+pd.DateOffset(years=2)
 
+    start_date = st.date_input("Input Data Start Date", key="start_date", value=datetime(2018, 1, 1))
+    end_date = st.date_input("Input Data End", key="end_date", value=datetime.today(),max_value=datetime.today())
+    projection_date = st.date_input("Projection Date", key="projection_date", value=datetime.today()+pd.DateOffset(years=2))
 
-    start_date = st.date_input("Start Date", key="start_date", value=datetime(2018, 1, 1))
-    end_date = st.date_input("End Date", key="end_date", value=datetime.today())
-
+   
 
     start_date = datetime.combine(start_date, datetime.min.time())
     end_date = datetime.combine(end_date, datetime.min.time())

@@ -4,3 +4,4 @@ AURN_2015_2023_daily.csv
 output_data.csv
 .streamlit
 firestore-key.json
+meteostat_grid.ipynb

@@ -17,6 +17,23 @@ st.sidebar.info(markdown)
 logo = "https://i.dailymail.co.uk/i/pix/2016/12/01/17/3AE49E8700000578-3986672-AirVisual_Earth_aims_to_clearly_show_the_effect_that_human_emiss-m-25_1480613072849.jpg"
 st.sidebar.image(logo)
 
+st.sidebar.title("Bug Report")
+st.sidebar.info("If you encounter any bugs, please report them below")
+bug_report = st.sidebar.text_area("Enter Bug Report Here")
+if st.sidebar.button("Submit Bug Report"):
+    key_dict = json.loads(st.secrets["textkey"])
+    # Convert dict to json and save it as a file
+    with open('keyfile.json', 'w') as fp:
+        json.dump(key_dict, fp)
+    ## connec to DB
+    db = firestore.Client.from_service_account_json('keyfile.json')
+    data_dict = {'bug_report': bug_report, 'date': datetime.now()}
+    ## write to firestore
+    db.collection('bug_reports').add(data_dict)
+
+    # remove the json file after done
+    os.remove('keyfile.json')
+    st.sidebar.write("Bug Report Submitted")
 
 
 if st.session_state['output']==True:
@@ -83,9 +100,15 @@ if st.session_state['output']==True:
     max_date = pd.to_datetime(max_date)
     end_of_year = pd.to_datetime(f'{max_date.year}-12-31')
     days_left = end_of_year - max_date
+
+    projection_date = st.session_state['projection_date']
+    projection_date = pd.to_datetime(projection_date)
+    ## calculate days between max_date and projection date
+    days_between = projection_date - max_date
+    
     
     ## set periods to complete the year and the next 5 years
-    periods = days_left.days + 365*5
+    periods = days_left.days + days_between.days
 
     ## make future dataframe
     future = m.make_future_dataframe(periods=periods)
