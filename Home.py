@@ -1,6 +1,6 @@
 import streamlit as st
 from streamlit_folium import st_folium, folium_static
-from functions import get_data, met_data, calculate_bearing, building_side_wind, building_side_road, canyon_factor
+from functions import get_data, met_data, calculate_bearing, building_side_wind, building_side_road, canyon_factor, closest_points_on_both_geometries
 import os
 from convertbng.util import convert_bng
 import folium
@@ -169,7 +169,7 @@ with input_col:
     end_date = datetime.combine(end_date, datetime.min.time())
 
 
-    radius = st.number_input("Radius (m)", key="radius", value=75, step=25)
+    radius = st.number_input("Radius (m)", key="radius", value=50, step=25)
 
 #### ============= Data Retrieval ================== ####
 if st.button("Submit Model Coordinates"):
@@ -231,8 +231,7 @@ if st.button("Submit Model Coordinates"):
         metdata['u'] = metdata['wspd'] * np.cos(metdata['wdir'])
         metdata['v'] = metdata['wspd'] * np.sin(metdata['wdir'])
         ## building calculated bearing to closest road
-        buildings['bearing_to_road'] =  buildings.geometry.apply(lambda x: calculate_bearing((road_data.geometry.iloc[0].centroid.x, road_data.geometry.iloc[0].centroid.y), (x.centroid.x, x.centroid.y)))
-
+        buildings['bearing_to_road'] = buildings.geometry.apply(lambda building: calculate_bearing(*closest_points_on_both_geometries(road_data.geometry.iloc[0], building)))
 
         met_df = pd.concat([met_df,metdata])
         buildings_df = pd.concat([buildings_df,buildings])

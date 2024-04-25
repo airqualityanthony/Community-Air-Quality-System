@@ -1,5 +1,8 @@
 import streamlit as st
 import pandas as pd
+import os
+import json
+from google.cloud import firestore
 
 st.set_page_config(page_title="Data Sources", page_icon="🗃️", layout="wide")
 
@@ -36,9 +39,11 @@ if st.sidebar.button("Submit Bug Report"):
 
 # Define the data for the table
 data = {
-    'Name': ['Data Source 1', 'Data Source 2', 'Data Source 3'],
-    'Description': ['Description 1', 'Description 2', 'Description 3'],
-    'URL': ['https://datasource1.com', 'https://datasource2.com', 'https://datasource3.com']
+    'Name': ['Meteostat', "{openair}", 'OS Data Hub'],
+    'Description': ['Meteostat is one of the largest vendors of open weather and climate data. Access long-term time series of thousands of weather stations and integrate Meteostat data into your products, applications and workflows. Thanks to our open data policy, Meteostat is an ideal data source for research and educational projects.', 
+                    'openair --- an R package for air quality data analysis', 
+                    "Great Britain’s Geospatial Data platform."],
+    'URL': ['https://meteostat.net/en/', 'https://davidcarslaw.github.io/openair/', 'https://osdatahub.os.uk/']
 }
 
 # Create a DataFrame from the data
@@ -47,7 +52,13 @@ df = pd.DataFrame(data)
 
 # Display the data table
 st.subheader('Data Sources Table')
-st.dataframe(df)
+## prettify the dataframe and make url column hyperlinks
+df['URL'] = df['URL'].apply(lambda x: f'<a href="{x}">{x}</a>')
+## write dataframe but don't show index, headers justified left
+st.write(df.to_html(escape=False, index=False), unsafe_allow_html=True)
+
+
+
 
 
 

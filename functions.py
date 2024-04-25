@@ -6,6 +6,7 @@ from osdatahub import FeaturesAPI, Extent, NGD
 from convertbng.util import convert_lonlat
 from geopy.distance import geodesic
 from shapely.geometry import Point
+from shapely.ops import nearest_points
 import geopandas as gpd
 from meteostat import Daily, Point as metPoint, Hourly
 import difflib
@@ -69,6 +70,12 @@ def calculate_bearing_linestring(line):
 
     return compass_bearing
 
+def closest_points_on_both_geometries(road, building):
+    # Find the closest points on both geometries
+    point_on_road, point_on_building = nearest_points(road, building)
+    # Return their coordinates
+    return point_on_road.coords[0], point_on_building.coords[0]
+
 def OSparam_feature(u,v,rad,product,key,clip):
     extent = Extent.from_radius((u,v), rad, "EPSG:27700")
     features = FeaturesAPI(key, product, extent)
@@ -128,7 +135,7 @@ def get_data(eastnorth,radius,key,data_key):
     linedistances = os_data.shortest_line(point_gdf.geometry.iloc[0])
     os_data['distance_to_point'] = os_data.geometry.apply(lambda x: point_gdf.geometry.iloc[0].distance(x))
     # os_data['bearing_to_point'] = os_data.geometry.apply(lambda x: calculate_bearing(point_gdf.geometry.iloc[0], x.centroid))
-    os_data['bearing_to_point'] = os_data.geometry.apply(lambda x: calculate_bearing((point_gdf.geometry.iloc[0].x, point_gdf.geometry.iloc[0].y), (x.centroid.x, x.centroid.y)))
+    os_data['bearing_to_point'] = os_data.geometry.apply(lambda x: calculate_bearing((point_gdf.geometry.iloc[0].x, point_gdf.geometry.iloc[0].y), nearest_points(point_gdf.geometry.iloc[0], x)[1].coords[0]))
     os_data_4326 = os_data.to_crs("EPSG:4326")
     point_gdf_ll = point_gdf.to_crs("EPSG:4326") 
     point_lon, point_lat = point_gdf_ll.geometry.iloc[0].x, point_gdf_ll.geometry.iloc[0].y

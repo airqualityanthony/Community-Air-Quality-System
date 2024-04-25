@@ -8,8 +8,8 @@ Data Ingestion
     Data Adjustment
         Distance from point [✓]
         Bearing to point [✓]
-        Road orientation [ ] 
-        Canyon Factor [ ]
+        Road orientation [✓] 
+        Canyon Factor [✓]
         
     
 Modelling
