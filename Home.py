@@ -4,7 +4,7 @@ from functions import get_data, met_data, calculate_bearing, building_side_wind,
 import os
 from convertbng.util import convert_bng
 import folium
-from folium.plugins import Draw
+from folium.plugins import Draw, Geocoder
 import geopandas as gpd
 from shapely.geometry import Point
 import pandas as pd
@@ -121,7 +121,9 @@ map_col, input_col = st.columns(2)
 fg = folium.FeatureGroup(name="data")
 ## add layer control
 # folium.LayerControl().add_to(m)
+Geocoder().add_to(m)
 Draw().add_to(m)
+
 
 map_placeholder = st.empty()
 
@@ -129,7 +131,7 @@ with map_col:
     mapdata = st_folium(
         m,
         feature_group_to_add=fg,
-        width=1200,
+        width=600,
         height=600,
         )
 
