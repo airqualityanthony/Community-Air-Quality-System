@@ -95,33 +95,15 @@ st.write(markdown)
 
 st.title("Map")
 
-tileurl = 'https://api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}@2x.png?access_token=' + str(mapbox_key)
-
 m = folium.Map(location=[54, -1.50], zoom_start=6,max_zoom=50)
 
 map_col, input_col = st.columns(2)
-# tile = folium.TileLayer(
-#     tiles='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-#     attr='Esri',
-#     name='Esri Satellite',
-#     overlay=True,
-#     control=True,
-#     show=False,
-# ).add_to(m)
 
-# tile_mapbox = folium.TileLayer(
-#     tiles=tileurl,
-#     attr='Mapbox',
-#     name='Mapbox',
-#     overlay=True,
-#     control=True,
-#     show=False,
-# ).add_to(m)
 
 fg = folium.FeatureGroup(name="data")
 ## add layer control
 # folium.LayerControl().add_to(m)
-Geocoder().add_to(m)
+# Geocoder().add_to(m)
 Draw().add_to(m)
 
 

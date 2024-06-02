@@ -56,8 +56,6 @@ def building_height_radius(X, Y, radius,product,key, clip):
     return TA_ll
 
 
-
-
 def calculate_bearing(pointA, pointB):
     lat1 = np.radians(pointA.y)
     lat2 = np.radians(pointB.y)
