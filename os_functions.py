@@ -87,8 +87,6 @@ def calculate_bearing_linestring(line):
 
     return compass_bearing
 
-
-
 def get_data(eastnorth,radius,key,data_key,data_dict):
     if data_key == 'buildings':
         os_data_source = OSparam_feature(eastnorth[0], eastnorth[1], radius,'topographic_area',key, clip=False)

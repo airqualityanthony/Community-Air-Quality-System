@@ -43,7 +43,7 @@ st.set_page_config(page_title="Home", page_icon="☁️", layout="wide")
 
 # Customize the sidebar
 markdown = """
-Citizen Air Quality System
+Community Air Quality System
 CAQS is a citizen science project that aims to provide an open-source, 
 and easy-to-use air quality modelling system for the public."""
 
