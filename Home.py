@@ -1,5 +1,5 @@
 import streamlit as st
-from streamlit_folium import st_folium, folium_static
+from streamlit_folium import st_folium
 from functions import get_data, met_data, calculate_bearing, building_side_wind, building_side_road, canyon_factor, closest_points_on_both_geometries
 import os
 from convertbng.util import convert_bng
@@ -152,11 +152,10 @@ with input_col:
     start_date = datetime.combine(start_date, datetime.min.time())
     end_date = datetime.combine(end_date, datetime.min.time())
 
-
     radius = st.number_input("Radius (m)", key="radius", value=50, step=25)
-
+    submit_button = st.button('Submit Model Coordinates')
 #### ============= Data Retrieval ================== ####
-if st.button("Submit Model Coordinates"):
+if submit_button:
 
     if st.session_state.lon:
         lon = st.session_state.lon
